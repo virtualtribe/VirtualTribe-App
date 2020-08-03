@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/screens/signUp/SignUpViewModel.dart';
-import 'package:virtualtribe/src/styles/AppColor.dart';
-import 'package:virtualtribe/src/styles/AppText.dart';
-import 'package:virtualtribe/src/styles/AppTextStyle.dart';
-import 'package:virtualtribe/src/widget/uihelper.dart';
+import 'package:virtualtribe/src/MainApp/screens/signUp/SignUpViewModel.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppText.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/widget/uihelper.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -35,6 +36,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                  ),
                ),
+               Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(children: <Widget>[
+                Text('Message', 
+                 textAlign: TextAlign.left,
+                      style:  TextStyle(
+                    color: AppColor.black,
+                    fontSize: AppFontSizes.small,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                
+                ],),
+              ),
                verticalSpaceLarge,
                 GestureDetector(
                 child: Padding(

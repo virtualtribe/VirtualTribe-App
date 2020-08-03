@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/MeViewModel.dart';
-import 'package:virtualtribe/src/styles/AppColor.dart';
-import 'package:virtualtribe/src/styles/AppFontSizes.dart';
-import 'package:virtualtribe/src/styles/AppTextStyle.dart';
-import 'package:virtualtribe/src/widget/uihelper.dart';
+import 'package:virtualtribe/src/MainApp/screens/dashboardUI/MeViewModel.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/widget/uihelper.dart';
 
 class MeScreen extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/locator.dart';
-import 'package:virtualtribe/src/services/navigation_service.dart';
-import 'package:virtualtribe/src/utils/constants.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 
 
 class SignUpDialogViewModel extends BaseViewModel{

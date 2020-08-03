@@ -1,4 +1,4 @@
-import 'package:virtualtribe/src/utils/constants.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //******** FOR DEVELOPER LOGICAL FUNCTION CREATED HIMSELF, */
@@ -8,6 +8,11 @@ saveEmailANDSession({String email, String sesscode})async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
        prefs.setString(Constants.email, email);
          prefs.setString( Constants.sessCode,  sesscode);
+  }
+   entredEmail(String providedEMail)async{
+    //Temporary saving email when login with email, SO that i can retrieve it and signi with this email and dynamic link
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+       prefs.setString(Constants.enteredEmail, providedEMail);
   }
 
     

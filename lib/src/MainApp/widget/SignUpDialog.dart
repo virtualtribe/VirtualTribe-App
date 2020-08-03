@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/screens/signUp/SignUpDialogViewModel.dart';
-import 'package:virtualtribe/src/styles/AppColor.dart';
-import 'package:virtualtribe/src/styles/AppFontSizes.dart';
-import 'package:virtualtribe/src/styles/AppTextStyle.dart';
-import 'package:virtualtribe/src/widget/uihelper.dart';
+import 'package:virtualtribe/src/MainApp/screens/signUp/SignUpDialogViewModel.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/widget/uihelper.dart';
 
 class SignUpDialog extends StatefulWidget {
   @override
@@ -63,7 +63,8 @@ class _SignUpDialogState extends State<SignUpDialog> {
           onPressed: () {
             Navigator.of(context).pop();// To close the dialog
           },
-          child: Text('Change Email', style: TextStyle(decoration: TextDecoration.underline , 
+          child: Text('Change Email', style: TextStyle(
+            decoration: TextDecoration.underline , 
           color: AppColor.secondary,), ),
         ),
 

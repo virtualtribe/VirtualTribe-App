@@ -1,7 +1,7 @@
 //********** THIS FILE CONTAIN TEXT Style*/
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:virtualtribe/src/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 
 class AppTextStyle{
 

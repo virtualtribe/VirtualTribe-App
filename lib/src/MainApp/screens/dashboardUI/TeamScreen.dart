@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/TeamViewModel.dart';
+import 'package:virtualtribe/src/locator.dart';
+import 'package:virtualtribe/src/MainApp/screens/dashboardUI/TeamViewModel.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:virtualtribe/src/styles/AppColor.dart';
-import 'package:virtualtribe/src/styles/AppFontSizes.dart';
-import 'package:virtualtribe/src/styles/AppTextStyle.dart';
-import 'package:virtualtribe/src/widget/uihelper.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
+import 'package:virtualtribe/src/MainApp/widget/uihelper.dart';
 
 class TeamScreen extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class TeamScreen extends StatefulWidget {
 }
 
 class _TeamScreenState extends State<TeamScreen> {
+   final NavigationService _navigationService = locator<NavigationService>();
+
   @override
   Widget build(BuildContext context) {
    return ViewModelBuilder<TeamViewModel>.reactive(
@@ -27,7 +32,17 @@ class _TeamScreenState extends State<TeamScreen> {
          Expanded(child: staffCard(),)
         ],
       )
-        ],)
+        ],),
+        floatingActionButton: FloatingActionButton.extended(
+          label: Row(children: <Widget>[
+               Icon(Icons.add, size: 30,),
+                Text('ADD STAFF',
+                         style: AppTextStyle.rampatBoldStyle(AppColor.white, 14)),
+             ],), 
+             onPressed: () { 
+              _navigationService.navigateTo(staffRoute);
+             },
+            ),
     )
     );
   }

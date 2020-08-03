@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:virtualtribe/src/services/navigation_service.dart';
-import 'package:virtualtribe/src/utils/customFunction.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
+import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
 
 GetIt locator = GetIt.instance;
 

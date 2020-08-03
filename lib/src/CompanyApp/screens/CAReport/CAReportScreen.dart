@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/DashboardViewModel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/MeScreen.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/TeamScreen.dart';
-import 'package:virtualtribe/src/styles/AppColor.dart';
-import 'package:virtualtribe/src/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/CompanyApp/screens/CAReport/CAMeReportTab.dart';
+import 'package:virtualtribe/src/CompanyApp/screens/CAReport/CAReportSViewModel.dart';
+import 'package:virtualtribe/src/CompanyApp/screens/CAReport/CAReportTeamTab.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
+import 'package:virtualtribe/src/locator.dart';
 
-class DashboardScreen extends StatefulWidget {
+class CAReportScreen extends StatefulWidget {
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  _CAReportScreenState createState() => _CAReportScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _CAReportScreenState extends State<CAReportScreen> {
+   final NavigationService _navigationService = locator<NavigationService>();
+   
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<DashboardViewModel>.reactive(
-      viewModelBuilder: () => DashboardViewModel(),
+    return ViewModelBuilder<CAReportSViewModel>.reactive(
+      viewModelBuilder: () => CAReportSViewModel(),
       builder: (context, model, child) => DefaultTabController(
         length: 2,
-              child: Scaffold(
+        child: Scaffold(
           appBar: PreferredSize(
                preferredSize: Size.fromHeight(100.0),  
                child: AppBar(
@@ -27,12 +32,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 centerTitle: true,
                 leading: Icon(Icons.menu, size: 30, color: Colors.grey,),
                 actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.settings, size: 30, color:  Colors.grey,),
+                  GestureDetector(
+                      child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.settings, size: 30, color:  Colors.grey,),
+                    ),
+                    onTap: (){
+              _navigationService.navigateTo(settingRoute);
+                    },
                   )
                 ],
-                title:  Text('Dashboard', 
+                title:  Text('Virtual Tribe Africa', 
                 style:  TextStyle(
               color: AppColor.black,
               fontSize: AppFontSizes.large,
@@ -80,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                    child: Column(children: <Widget>[
                      Expanded(child: Padding(
                        padding: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
-                       child: MeScreen(),
+                       child: CAMeReportTab(),
                      ),
                      )
                    ],)
@@ -92,7 +102,7 @@ Padding(
                    
                      Expanded(child: Padding(
                        padding: const EdgeInsets.only(top: 5.0, ),
-                       child: TeamScreen()
+                       child: CAReportTeamTab()
                      ),
                      )
                    ],)
@@ -100,6 +110,7 @@ Padding(
               ]),
         ),
       )
-    );
+    
+  );
   }
 }

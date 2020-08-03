@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:virtualtribe/src/CompanyApp/screens/CADashboard/CAppDashboardScreen.dart';
+import 'package:virtualtribe/src/MainApp/screens/dashboardUI/DashboardScreen.dart';
+import 'package:virtualtribe/src/MainApp/screens/signUp/SignUpScreen.dart';
 import 'package:virtualtribe/src/locator.dart';
 import 'package:virtualtribe/src/route.dart';
-import 'package:virtualtribe/src/screens/dashboardUI/DashboardScreen.dart';
-import 'package:virtualtribe/src/screens/signUp/SignUpScreen.dart';
-import 'package:virtualtribe/src/services/navigation_service.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 
 class App extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _AppState extends State<App> {
       title: 'VirtualTribe',
       debugShowCheckedModeBanner: false,
       navigatorKey: locator<NavigationService>().navigationKey,
-      home: DashboardScreen(),//SignUpScreen(), 
+      home: SignUpScreen(),//DashboardScreen(),//, 
       onGenerateRoute: generateRoute,
     );
   }
