@@ -10,6 +10,9 @@ import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/locator.dart';
 
 class CAReportScreen extends StatefulWidget {
+ final String title;
+ const CAReportScreen({this.title});
+
   @override
   _CAReportScreenState createState() => _CAReportScreenState();
 }
@@ -42,7 +45,7 @@ class _CAReportScreenState extends State<CAReportScreen> {
                     },
                   )
                 ],
-                title:  Text('Virtual Tribe Africa', 
+                title:  Text((widget.title == null ? '' : widget.title), 
                 style:  TextStyle(
               color: AppColor.black,
               fontSize: AppFontSizes.large,

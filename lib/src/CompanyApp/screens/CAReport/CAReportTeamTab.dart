@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/CompanyApp/screens/CAReport/CAReportSViewModel.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/widget/ReportTableData.dart';
 
 class CAReportTeamTab extends StatefulWidget {
   @override
@@ -80,6 +81,7 @@ Padding(padding: const EdgeInsets.only(top: 1, left: 5.0, right: 5.0),
         ),
       )
   );
+  
   }
 }
 
@@ -91,8 +93,13 @@ class PendingTab extends StatefulWidget {
 class _PendingTabState extends State<PendingTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ReportTableData(
+      ),
+    )
+      ],
     );
   }
 }
@@ -105,8 +112,13 @@ class ApprovedTab extends StatefulWidget {
 class _ApprovedTabState extends State<ApprovedTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ReportTableData(
+      ),
+    )
+      ],
     );
   }
 }

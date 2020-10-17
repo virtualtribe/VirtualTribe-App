@@ -19,4 +19,5 @@ class NavigationService {
     return _navigationKey.currentState
         .pushReplacementNamed(routeName, arguments: arguments);
   }
+   
 }

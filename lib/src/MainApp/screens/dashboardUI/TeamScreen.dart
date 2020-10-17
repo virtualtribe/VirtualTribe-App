@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:virtualtribe/src/MainApp/screens/dashboardUI/DashboardViewModel.dart';
 import 'package:virtualtribe/src/locator.dart';
-import 'package:virtualtribe/src/MainApp/screens/dashboardUI/TeamViewModel.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
@@ -20,16 +20,20 @@ class _TeamScreenState extends State<TeamScreen> {
 
   @override
   Widget build(BuildContext context) {
-   return ViewModelBuilder<TeamViewModel>.reactive(
-      viewModelBuilder: () => TeamViewModel(),
+   return ViewModelBuilder<DashboardViewModel>.reactive(
+      viewModelBuilder: () => DashboardViewModel(),
+       onModelReady: (model) => model.showData(),
       builder: (context, model, child) =>Scaffold(
         //backgroundColor: AppColor.primary,
         body: Column(children: <Widget>[
           card1(),
           Row(
           children: <Widget>[
-          reportsCard(),
-         Expanded(child: staffCard(),)
+         GestureDetector(child: reportsCard(model),
+         onTap: (){
+           model.reportScreen(); //TODO MOVE TO REPORT SCREEN
+         },),
+         Expanded(child: staffCard(model),)
         ],
       )
         ],),
@@ -40,7 +44,7 @@ class _TeamScreenState extends State<TeamScreen> {
                          style: AppTextStyle.rampatBoldStyle(AppColor.white, 14)),
              ],), 
              onPressed: () { 
-              _navigationService.navigateTo(staffRoute);
+              _navigationService.navigateTo(staffRoute, );
              },
             ),
     )
@@ -103,7 +107,7 @@ return Container(
   }
 
 //Report
-reportsCard(){
+reportsCard(DashboardViewModel model){
   return Container(
     height: MediaQuery.of(context).size.height / 3.5,
     width: MediaQuery.of(context).size.height / 3.8,
@@ -127,7 +131,7 @@ reportsCard(){
           padding: const EdgeInsets.only(left: 8.0, right: 9.0),
           child: Container(
             height: MediaQuery.of(context).size.height / 6.9,
-            child: Center(child: Text('0', 
+            child: Center(child: Text((model.report == null ? '0' : model.report), 
             style: AppTextStyle.rampatBoldStyle(AppColor.secondary, 48),)),),
         ),
          Expanded(
@@ -135,7 +139,7 @@ reportsCard(){
               mainAxisAlignment: MainAxisAlignment.center,
              children: <Widget>[
              Text('You have ', style: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.small),),
-             Text('0', style: AppTextStyle.rampatBoldStyle(AppColor.darkGrey, AppFontSizes.medium),),
+             Text((model.report == null ? '0' : model.report), style: AppTextStyle.rampatBoldStyle(AppColor.darkGrey, AppFontSizes.medium),),
              Text(' reports', style: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.small),)
            ]),
          ),
@@ -147,7 +151,7 @@ reportsCard(){
 }
 
 //
-staffCard(){
+staffCard(DashboardViewModel model){
   return Container(
     height: MediaQuery.of(context).size.height / 3.5,
     width: MediaQuery.of(context).size.width / 3,
@@ -171,7 +175,7 @@ staffCard(){
           padding: const EdgeInsets.only(left: 8.0, right: 9.0),
           child: Container(
             height: MediaQuery.of(context).size.height / 6.9,
-            child: Center(child: Text('0', 
+            child: Center(child: Text((model.staff == null ? '0' : model.staff),
             style: AppTextStyle.rampatBoldStyle(AppColor.primary, 48),)),),
         ),
          Expanded(
@@ -179,7 +183,7 @@ staffCard(){
               mainAxisAlignment: MainAxisAlignment.center,
              children: <Widget>[
              Text('You have ', style: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.small),),
-             Text('0', style: AppTextStyle.rampatBoldStyle(AppColor.darkGrey, AppFontSizes.medium),),
+             Text((model.staff == null ? '0' : model.staff), style: AppTextStyle.rampatBoldStyle(AppColor.darkGrey, AppFontSizes.medium),),
              Text(' staff', style: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.small),)
            ]),
          ),

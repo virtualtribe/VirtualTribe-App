@@ -3,7 +3,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/MainApp/screens/Settings/CompanyScreen.dart';
 import 'package:virtualtribe/src/MainApp/screens/Settings/PersonnalScreen.dart';
-import 'package:virtualtribe/src/MainApp/screens/dashboardUI/DashboardViewModel.dart';
+import 'package:virtualtribe/src/MainApp/screens/Settings/SettingsViewModel.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 
@@ -13,16 +13,18 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  
+
   @override
   Widget build(BuildContext context) {
-   return ViewModelBuilder<DashboardViewModel>.reactive(
-      viewModelBuilder: () => DashboardViewModel(),
+   return ViewModelBuilder<SettingsViewModel>.reactive(
+      viewModelBuilder: () => SettingsViewModel(),
        builder: (context, model, child) => DefaultTabController(
         length: 2,
-                child: Scaffold(
+       child: Scaffold(
            appBar: PreferredSize(
               preferredSize: Size.fromHeight(100.0),  
-                        child: AppBar(
+                 child: AppBar(
                    backgroundColor: Colors.white,
                     elevation: 0,
                     centerTitle: true,
@@ -38,9 +40,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               actions: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(FontAwesome.logout, size: 30, color:  Colors.red,),
+                      GestureDetector(
+                         child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(FontAwesome.logout, size: 30, color:  Colors.red,),
+                        ),
+                        onTap:(){
+                          model.logout(); //TODO LOGOUT HERE..
+                        }
                       )
                     ],
                      bottom: TabBar(
@@ -98,9 +105,7 @@ Padding(
                      )
                    ],)
                  ),
-              ]),
-          
-         
+              ]),   
          ),
        )
     

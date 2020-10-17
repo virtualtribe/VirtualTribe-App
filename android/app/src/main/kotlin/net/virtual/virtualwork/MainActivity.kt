@@ -1,4 +1,4 @@
-package com.virtualtribe.virtualwork
+package net.virtual.virtualwork
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

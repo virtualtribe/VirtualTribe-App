@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtualtribe/src/MainApp/screens/dashboardUI/NavDrawer.dart';
 import 'package:virtualtribe/src/locator.dart';
 import 'package:virtualtribe/src/MainApp/screens/dashboardUI/DashboardViewModel.dart';
 import 'package:stacked/stacked.dart';
@@ -17,20 +18,26 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
 
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DashboardViewModel>.reactive(
       viewModelBuilder: () => DashboardViewModel(),
+      onModelReady: (model) => model.showData(),
       builder: (context, model, child) => DefaultTabController(
         length: 2,
-              child: Scaffold(
+       child: Scaffold(
+         drawer: NavDrawer(),
           appBar: PreferredSize(
                preferredSize: Size.fromHeight(100.0),  
                child: AppBar(
                 backgroundColor: Colors.white,
                 elevation: 0,
                 centerTitle: true,
-                leading: Icon(Icons.menu, size: 30, color: Colors.grey,),
+                leading: GestureDetector(child: Icon(Icons.menu, size: 30, color: Colors.grey,),
+                onTap:(){
+              
+                }),
                 actions: <Widget>[
                   GestureDetector(
                       child: Padding(
@@ -42,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     },
                   )
                 ],
-                title:  Text('Dashboard', 
+                title:  Text((model.title == null ? 'Dashboard' : model.title), 
                 style:  TextStyle(
               color: AppColor.black,
               fontSize: AppFontSizes.large,
@@ -80,8 +87,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ]),
-           
-           
               ),
             ),
             body: TabBarView(children: [
@@ -110,4 +115,5 @@ Padding(
       )
     );
   }
+
 }

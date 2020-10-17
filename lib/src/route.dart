@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:virtualtribe/src/CompanyApp/screens/CADashboard/CAppDashboardScreen.dart';
 import 'package:virtualtribe/src/CompanyApp/screens/CAReport/CAReportScreen.dart';
+import 'package:virtualtribe/src/MainApp/screens/RegisterInformationScreen.dart';
 import 'package:virtualtribe/src/MainApp/screens/Settings/SettingsScreen.dart';
 import 'package:virtualtribe/src/MainApp/screens/Staff/StaffScreen.dart';
 import 'package:virtualtribe/src/MainApp/screens/dashboardUI/DashboardScreen.dart';
 import 'package:virtualtribe/src/MainApp/screens/signUp/SignUpScreen.dart';
+import 'package:virtualtribe/src/MainApp/screens/signUp/VerifyDynamicRegister.dart';
 import 'package:virtualtribe/src/MainApp/utils/constants.dart';
-
+import 'package:virtualtribe/src/StaffApp/StaffDasboard/StaffDasbhoard.dart';
+import 'package:virtualtribe/src/Version1/V1ActivitiesScreen.dart';
+import 'package:virtualtribe/src/Version1/V1TimesheetScreen.dart';
+import 'package:virtualtribe/src/WrapperScreen.dart'; 
+import 'package:virtualtribe/src/Version1/V1Dashboard.dart';
+import 'package:virtualtribe/src/Version1/V1ProfileScreen.dart';
+import 'package:virtualtribe/src/f.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -18,7 +26,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
        viewToShow: SignUpScreen(),
      );
 
-    //  //Login Screen Routing.
     case dasbhoardRoute:
     return _getPageRouteTransition(
        viewToShow: DashboardScreen(),
@@ -48,6 +55,69 @@ case staffRoute:
      return _getPageRouteTransition(
        viewToShow: CAReportScreen(),
         pageTransitionType: PageTransitionType.upToDown
+     );
+     
+      case signInwithEmailLOADERRoute:
+     var values = settings.arguments; //Index to show when going to this page
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: VerifyDynamicRegister(data: values,),
+      );
+
+       case companyReport:
+     var value = settings.arguments as String; //Index to show when going to this page
+      return _getPageRouteTransition(
+         pageTransitionType: PageTransitionType.upToDown,
+        viewToShow: CAReportScreen(title: value,),
+      );
+      //
+       case wrapperRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: WrapperScreen()
+      );
+      case registerdataRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: RegisterInformationScreen()
+      );
+      //
+      case staffDashbordRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: StaffDasbhoard()
+      );
+
+      case v1dashboard:
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.rotate,
+       viewToShow: V1Dashboard(),
+     ); //
+
+     case profileRoute:
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.upToDown,
+       viewToShow: V1ProfileScreen(),
+     );
+     //
+     case timesheetRoute:
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.downToUp,
+       viewToShow: V1TimesheetScreen(),
+     );
+
+     //
+     case testerRoute:
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.downToUp,
+       viewToShow: MyHomePage(),
+     );
+
+     //
+      case activityRoute:
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.leftToRight,
+       viewToShow: V1ActivitiesScreen(),
      );
 
     default:

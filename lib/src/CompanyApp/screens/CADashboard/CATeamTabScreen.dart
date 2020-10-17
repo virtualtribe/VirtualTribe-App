@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/CompanyApp/screens/CADashboard/CAppDashboardScreenViewModel.dart';
 import 'package:virtualtribe/src/locator.dart';
-import 'package:virtualtribe/src/MainApp/screens/dashboardUI/TeamViewModel.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
@@ -92,7 +90,6 @@ cards({String type, IconData icon, String number, String text1, String text2, St
            ]),
          ),
      ],)
-
     ),
   );
 }
