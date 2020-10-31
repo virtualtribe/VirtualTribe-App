@@ -27,11 +27,6 @@ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   Future _populateCurrentUser(FirebaseUser user) async {
     if (user != null) {
       _currentUser = await _firestoreService.getUser(user.uid);
-      // if(_currentUser.companyID != null){ //Populate current company details
-      // // _currentCompany = await _firestoreService.getCompanyDetails(_currentUser.companyID);
-      //  //companydata = await _firestoreService.getCompanyDetails(_currentUser.companyID);
-      // }
-     // return _currentUser != null;
     }
   }
 
@@ -65,11 +60,11 @@ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     try{
        AuthResult _result =  await _auth.signInAnonymously();
        FirebaseUser _user = _result.user;
-       return _populateCurrentUser(_user);
+       print(_user.uid);
+       //return _populateCurrentUser(_user);
     }catch(e){ //If there's an Error 
     print('******signInAnonymous ERROR ${e.toString()}');
     return null;
     }
   }
-
 }

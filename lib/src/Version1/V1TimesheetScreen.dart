@@ -50,7 +50,8 @@ static const int sortName = 0;
         appBar: AppBar(
            backgroundColor: AppColor.primary,
         title: Text('My Timesheet', 
-        style: AppTextStyle.rampatStyle(AppColor.white, AppFontSizes.large)),
+        style: AppTextStyle.rampatStyle(AppColor.white,
+         AppFontSizes.large)),
         ),
         backgroundColor: AppColor.white,
         body: _getBodyWidget(model),
@@ -259,4 +260,5 @@ dateofTimesheet.text = value;
       formattedMonth = monthFormatter.format(now);
        formattedDay = dayFormatter.format(now);
   }
+
 }

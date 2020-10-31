@@ -31,7 +31,6 @@ initialise({String startT, stopT}){
                         //Opps! Failed.
                          showMessage(msg: value.error, type: 0);
                          print(value.error);
-
                             setBusy(false);
                          _activitiesList = null;
                }else{
@@ -63,9 +62,8 @@ for (var index = 0; index < value.activities.length; index++) {
     
   }).catchError((e)async{
                       showMessage(msg: e.toString(), type: 0);
-                          setBusy(false);
+                      setBusy(false);
  });
-
 }
 
 showMessage({String msg, int type}){

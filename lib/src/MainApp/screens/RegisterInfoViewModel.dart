@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/MainApp/model/FetchBankModel.dart';
 import 'package:virtualtribe/src/MainApp/model/UserModel.dart';
+import 'package:virtualtribe/src/MainApp/services/AuthService.dart';
 import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/utils/constants.dart';
@@ -20,6 +22,7 @@ class RegisterInfoViewModel extends BaseViewModel{
    int get displayMessageType => _messageType;
    int get displayMessageType2 => _messageType2;
    int get displayMessageType3 => _messageType3;
+   String getName, getEmail;
 
      final FirestoreService _firestoreService = locator<FirestoreService>();
      final NavigationService _navigationService = locator<NavigationService>();
@@ -28,16 +31,21 @@ class RegisterInfoViewModel extends BaseViewModel{
       List<BankData> get getbank => _fectbankModel;
       String getAccountName;
       bool loader = false, loader3 = false;
+    final AuthService _auth = locator<AuthService>();
 
- register({String fullName, String email, 
+ register({String fullName, //String email, 
     String accountNumber, String accountName, String bankName,
   String  homeAddress, String guarantorName, String guarantorNumber, 
   String nameOfNextKinController, String nameOfNextKinPhoneNumberController,
  String phoneN,  String dateoFBirth})async{
      showMessage3(msg: null);
+SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString(Constants.email);
+    String lastname = prefs.getString(Constants.name);
 
     var user = await _firebaseAuth.currentUser();
-    if(fullName.isEmpty || email.isEmpty ||accountNumber.isEmpty
+
+    if(accountNumber.isEmpty
      || accountName.isEmpty || bankName.isEmpty 
      ||  homeAddress.isEmpty ||  guarantorName.isEmpty
       || guarantorNumber.isEmpty ||  nameOfNextKinController.isEmpty  
@@ -51,11 +59,14 @@ class RegisterInfoViewModel extends BaseViewModel{
 
       }else{
     setLoader3(true);
+    dynamic _result = _auth.signInAnonymous();
+    if(_result != null){
+      print(_result.toString());
 
- try{
+   try{
      var result =  await _firestoreService.createUser(UserModel(
           id: user.uid,
-          fullName: fullName,
+          fullName: lastname,//fullName,
           accountNumber: accountNumber,
           accountName: accountName,
           bankName: bankName,
@@ -66,8 +77,9 @@ class RegisterInfoViewModel extends BaseViewModel{
           guarantorName: guarantorName,
           guarantorNumber: guarantorNumber,
           homeAddress: homeAddress,
-          nameOfNextKinController:  nameOfNextKinController,
-          nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController, ));
+          walletBalance: "0.00",
+          nameOfNextKinController:nameOfNextKinController,
+          nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,));
           
           if(result is String){
              setLoader3(false);
@@ -83,8 +95,11 @@ class RegisterInfoViewModel extends BaseViewModel{
    showMessage3(msg: e.toString(), type: 0);
     setLoader3(false);
  }
+    }else{
+      setLoader3(false);
+      showMessage3(msg: "Authentication failed, Please retry", type: 0);
+    }
  }
-
  }
 final API _api = locator<API>();
 
@@ -107,8 +122,12 @@ showMessage3({String msg, int type}){
 } 
 
 
-fetchBanks(){
+fetchBanks({TextEditingController emailCon, TextEditingController nameCon})async{
   showMessage(msg: null);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+   emailCon.text = prefs.getString(Constants.email);
+     nameCon.text = prefs.getString(Constants.name);
+    
   setBusy(true);
 _api.getBanks().then((value)async{
 
@@ -124,7 +143,7 @@ _api.getBanks().then((value)async{
                  _fectbankModel = null;
                }else{
 for (var index = 0; index < value.data.length; index++) {
-           print(value.data[index].name);
+           //print(value.data[index].name);
             _fectbankModel.add(
                   BankData(
                     code: value.data[index].code,
@@ -146,6 +165,7 @@ List<BankData> getBank() {
    }
 
    fetchingBankInfo({String accountNo, String code, TextEditingController acctcontroller}){ //
+   
    showMessage2(msg: null);
       setLoader(true);
 
@@ -183,5 +203,4 @@ List<BankData> getBank() {
      loader3 = value;
      notifyListeners();
    }
-
 }

@@ -19,6 +19,7 @@ class _V1DashboardState extends State<V1Dashboard> {
 
       return ViewModelBuilder<V1DashboardViewModel>.reactive(
       viewModelBuilder: () => V1DashboardViewModel(),
+      onModelReady: (model) => model.initialized(),
       builder: (context, model, child) =>
       Container(
               color: Colors.red,
@@ -53,8 +54,33 @@ class _V1DashboardState extends State<V1Dashboard> {
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("\₦2589.90", style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w700),),
-                                        Container(
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 13.0),
+                        child: GestureDetector(
+                        child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: AppColor.primary,
+                                child: ClipOval(
+                                  child: Icon(Icons.menu, size: 30),
+                                ),
+                                ),
+                                onTap: (){
+                                // model.gotoProfile();
+                                },
+                        ),
+                      ) 
+                        ),
+                     Column(
+                          children: [
+                    Text(model.walletBalance == null ? "" : "\₦${model.walletBalance}", textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, 
+                    fontSize: 36, 
+                     fontWeight: FontWeight.w700),),
+                  Text("Available Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Colors.blue[100]),),
+                          ],
+                        ),
+                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 13.0),
                         child: GestureDetector(
@@ -74,62 +100,103 @@ class _V1DashboardState extends State<V1Dashboard> {
                         ),
                   ]),
                     
-                  Text("Available Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Colors.blue[100]),),
                    SizedBox(height : 18,),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                            Container(
+                            GestureDetector(
+                         child: Container(
                          child: Column(
                            children: <Widget>[
-                             Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(243, 245, 248, 1),
-                                borderRadius: BorderRadius.all(Radius.circular(18))
-                              ),
-                              child: Icon(FontAwesome5.money_bill_wave, color: Colors.blue[900], size: 30,),
-                              padding: EdgeInsets.all(12),
+                               Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(243, 245, 248, 1),
+                                  borderRadius: BorderRadius.all(Radius.circular(18))
+                                ),
+                                child: Icon(FontAwesome5.money_bill_wave, color: Colors.blue[900], size: 30,),
+                                padding: EdgeInsets.all(12),
                           ),
-                            
+                              
                           SizedBox(
-                            height: 4,
+                              height: 4,
                           ),
                           Text("Withdraw", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.blue[100]),),
                            ],
                          )
-                         ), 
+                         ),
+                         onTap:(){
+                           model.gotoWithraw();
+                         }
+                            ), 
 
-                          Padding(
-                            padding: const EdgeInsets.only(right: 13.0),
-                            child: Container(
-                         child: Column(
+
+                           Container(
+                         child: GestureDetector(
+                          child: Column(
                              children: <Widget>[
                                Container(
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(243, 245, 248, 1),
                                   borderRadius: BorderRadius.all(Radius.circular(18))
                                 ),
-                                child: Icon(Icons.change_history, color: Colors.blue[900], size: 30,),
+                                child: Icon(FontAwesome5.money_check, color: Colors.blue[900], size: 30,),
                                 padding: EdgeInsets.all(12),
                             ),
-                              
                             SizedBox(
                               height: 4,
                             ),
-                            Text("History", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.blue[100]),),
+                            Text("Send Money", style: TextStyle(fontWeight: FontWeight.w700,
+                             fontSize: 14, color: Colors.blue[100]),),
                              ],
+                           ),
+                           onTap: (){
+                               model.gotoSendMoney();
+                           },
                          )
                          ),
-                          ), 
 
-
-                                ],)
-                                  ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 13.0),
+                            child: GestureDetector(
+                            child: Container(
+                         child: Column(
+                               children: <Widget>[
+                                 Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(243, 245, 248, 1),
+                                    borderRadius: BorderRadius.all(Radius.circular(18))
+                                  ),
+                                  child: Icon(Icons.change_history, color: Colors.blue[900], size: 30,),
+                                  padding: EdgeInsets.all(12),
+                              ),
+                                
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text("History", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.blue[100]),),
+                               ],
+                         )
+                         ),
+                           onTap: (){
+                             model.gotoWalletHistory();
+                           },
+                            ),
+                          ), ],), ],
                                 )
-                              )
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                              height: 4,
+                            ),
+                       Text("Hi ${model.name}. Welcome to ${model.companyName}", 
+                      textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, 
+                    fontSize: 25, 
+                     fontWeight: FontWeight.w700),),
+                    ],)
                     ]),
-                   
-                  
                 ),
               )
             ),
@@ -247,7 +314,44 @@ class _V1DashboardState extends State<V1Dashboard> {
                               model.gotoProfile();
                            },
                          ),                        
-                         ),  ],)
+                         ),  ],),
+
+                         SizedBox(
+                              height: 40,
+                            ),
+
+                         
+                         Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Container(
+                         child: GestureDetector(
+                           child: Column(
+                             children: <Widget>[
+                               Container(
+                                decoration: BoxDecoration(
+                                  color: AppColor.primary,
+                                  borderRadius: BorderRadius.all(Radius.circular(18))
+                                ),
+                                child: Icon(FontAwesome5.people_arrows, color: Colors.white, size: 30,),
+                                padding: EdgeInsets.all(12),
+                            ),
+                              
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text("All Staff", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14,
+                             color: AppColor.black),),
+                             ],
+                           ),
+                           onTap: (){
+                              model.gotoViewAllStaff();
+                           },
+                         ),                        
+                         ),
+                             
+                           ],
+                         )
                                            
                                           ],
                                         )),

@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:virtualtribe/src/MainApp/model/OrganisationDetailsModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/ListofUsersModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/AuthenticationModel.dart';
+import 'package:virtualtribe/src/MainApp/model/V1Model/MembersModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/UsersActivities.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/WeeklyTimesheetModel.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppText.dart';
@@ -213,6 +215,110 @@ class V1API implements V1BaseAPI {
       }else{
       UsersActivities usersActivities = UsersActivities.fromJson(convert);
         return usersActivities;
+      } 
+      
+     }
+    } on TimeoutException catch (e) {
+      //Exception if data load for 5 seconds and no response
+
+      throw Failure(AppText.timeoutException);
+
+    } on SocketException catch (_) {
+      //Exception if there's no Internet
+      throw Failure(AppText.noInternet);
+
+    }on HttpException {
+      //Exception if there's invalid request
+      throw Failure(AppText.badposturl);
+
+    }on FormatException catch (e){
+      //Exception if there's invalid Http
+      print(e.toString());
+      throw Failure(e.toString()); //AppText.badrequest
+    }
+  }
+
+  @override
+  Future<OrganisationDetailsModel> getOrganisationDetails() 
+  async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+      String usertoken = prefs.getString(Constants.userToken);
+     Map<String, String> header = new HashMap();
+
+    header['App-Token'] = AppText.v1Token;
+    header['Auth-Token'] = usertoken; //
+    header['offset'] = "0"; //
+
+    try {
+      var response = await http.get('${_url.getOrganisationDetailsLink}?offset=0', headers: header,)
+      .timeout(Duration(seconds: httpDuration));
+      var convert = json.decode(response.body);
+
+    // print('Server response. ${convert.toString()}');
+
+     if(convert == null){
+       
+     return null;
+     
+     }else{
+
+      if(response.statusCode == 200){
+     OrganisationDetailsModel organisationDetailsModel = OrganisationDetailsModel.fromJson(convert);
+        return organisationDetailsModel;
+
+      }else{
+      OrganisationDetailsModel organisationDetailsModel = OrganisationDetailsModel.fromJson(convert);
+        return organisationDetailsModel;
+      } 
+      
+     }
+    } on TimeoutException catch (e) {
+      //Exception if data load for 5 seconds and no response
+
+      throw Failure(AppText.timeoutException);
+
+    } on SocketException catch (_) {
+      //Exception if there's no Internet
+      throw Failure(AppText.noInternet);
+
+    }on HttpException {
+      //Exception if there's invalid request
+      throw Failure(AppText.badposturl);
+
+    }on FormatException catch (e){
+      //Exception if there's invalid Http
+      print(e.toString());
+      throw Failure(e.toString()); //AppText.badrequest
+    }
+  }
+
+  @override
+  Future<MembersModel> getAllMembers()async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+      String usertoken = prefs.getString(Constants.userToken);
+       String organisationID = prefs.getString(Constants.organizationID);
+     Map<String, String> header = new HashMap();
+
+    header['App-Token'] = AppText.v1Token;
+    header['Auth-Token'] = usertoken; //
+    header['id'] = organisationID; //
+
+    try {
+      var response = await http.get('${_url.getAllMembersLink}/$organisationID/members', headers: header,)
+      .timeout(Duration(seconds: httpDuration));
+      var convert = json.decode(response.body);
+     if(convert == null){
+       
+     return null;
+     
+     }else{
+      if(response.statusCode == 200){
+     MembersModel membersModel = MembersModel.fromJson(convert);
+        return membersModel;
+
+      }else{
+      MembersModel membersModel = MembersModel.fromJson(convert);
+        return membersModel;
       } 
       
      }

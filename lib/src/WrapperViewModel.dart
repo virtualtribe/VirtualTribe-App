@@ -47,36 +47,6 @@ import 'package:virtualtribe/src/services/V1API.dart';
 //     }
 //  } 
 
-//  organisationDetails(){
-//    _api.getOrganisationDetails(startID: 1, limit: 1).then((value)async{
-
-//                     if(value == null){
-                      
-//                         setBusy(false);
-//                     showMessage(error: value.toString(), type: 0);
-                         
-//                     }else{
-//                        if(value.organizations != null){
-//                         //TODO ORAGNIZATION SUCCESS, SAVE DATA TO LOCAL STORAGE......
-//                         for(int i = 0; i < value.organizations.length; i++){
-//                           _customFuntion.saveOrganizationDetails(value.organizations[i]);
-//                         }
-
-//                         _navigationService.navigateToandRemove(dasbhoardRoute);
-//                           setBusy(false); 
-
-//                      }else{
-//                         //Opps! Failed.
-//                          showMessage(error: value.error, type: 0);
-//                             setBusy(false);
-//                      }
-//                     }
-//                   }).catchError((e)async{
-//                       showMessage(error: e.toString(), type: 0);
-//                           setBusy(false);
-//                   });
-
-//  }
  
 //  showMessage({String error, int type}){
 // _errorMessage = error;
@@ -90,8 +60,9 @@ class WrapperViewModel extends BaseViewModel{
 final AuthService _authenticationService = locator<AuthService>();
   final NavigationService _navigationService = locator<NavigationService>();
    final V1API _v1api = locator<V1API>();
-   String _errorMessage;
+   String _errorMessage, _errorToken;
 String get message => _errorMessage;
+String get getErrorToken => _errorToken;
 int _errorMessageType;
 int get errorType => _errorMessageType;
 final CustomFunction _customFuntion = locator<CustomFunction>();
@@ -100,20 +71,38 @@ void handleStartUp()async{
    SharedPreferences prefs = await SharedPreferences.getInstance();
    String mytoken = prefs.getString(Constants.userToken);
     int uid = prefs.getInt(Constants.userId);
- // print('Saved Token => $mytoken');
+  print('Saved Token => $mytoken');
 
     if(mytoken == null){
+      
       //Login Page
        _navigationService.navigateToandRemove(registerRoute);
       
     }else{
-      setBusy(true);
+
+       var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
+    if (hasLoggedInUser) {
+        //Check if User data is in the Database.
+        //IF YES, MOVE TO DASHBOD ELSE PROCESS REGISTRATION SCREEN
+       var result = await _authenticationService.checkIfIDExist();
+
+    if(result){
+      setBusy(false);
+//YES DATA EXIST, MOVE TO DASHBOARD
+  organisationDetails();
+  showMessage(error: null, type: 0,);
     //  Fetc User info here
       _v1api.getUsersList().then((value)async{
            print('Am here....... ${value.error.toString()}');
                     if(value.users == null){
-                        setBusy(false);
-                    showMessage(error: value.error, type: 0);
+                    if(value.error == 'Invalid app_token'){
+                      showMessage(errorToken: value.error, type: 0,);
+                       setBusy(false);
+                    }else{
+                           setBusy(false);
+                    showMessage(error: value.error, type: 0,);
+                    }
+                   
 
                     }else{
 
@@ -130,8 +119,7 @@ void handleStartUp()async{
                               lastActivity: value.users[i].lastActivity
                               
                             );
-                     _navigationService.navigateToandRemove(v1dashboard);
-
+                            _navigationService.navigateToandRemove(v1dashboard);
                          }
                         }
                    
@@ -139,6 +127,7 @@ void handleStartUp()async{
                      }else{
                         //Opps! Failed.
                          showMessage(error: value.error, type: 0);
+                        
                             setBusy(false);
                      }
                    // showMessage(error: "User Successfully found", type: 1);
@@ -148,14 +137,79 @@ void handleStartUp()async{
                       showMessage(error: e.toString(), type: 0);
                       setBusy(false);
                   });
+
+    }else{
+      //IF auth exist but user data not extist goto where will input thier details.
+        // TODO Register Data afresh by inputing details.
+      _navigationService.navigateToandRemove(registerdataRoute);
+    }
+    }else{
+      //If Auth is null, Goto where user can signUp with FIrebase Anonymous
+  _navigationService.navigateToandRemove(onboardRoute); 
+    }
     }
 }
 
- showMessage({String error, int type}){
+ showMessage({String error, int type, String errorToken}){
 _errorMessage = error;
 _errorMessageType = type;
+_errorToken = errorToken;
 notifyListeners();
 }
+
+firebaseWrapper()async{
+ var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
+    setBusy(true);
+
+    if (hasLoggedInUser) {
+        //Check if User data is in the Database.
+        //IF YES, MOVE TO DASHBOD ELSE PROCESS REGISTRATION SCREEN\
+      checking();
+    }
+}
+
+ checking()async{
+    var result = await _authenticationService.checkIfIDExist();
+
+    if(result){
+//YES DATA EXIST, MOVE TO DASHBOARD
+organisationDetails();
+ _navigationService.navigateToandRemove(v1dashboard);
+    }else{
+      //NO DOESN"T EXIST AT ALL, MOVE TO PROCEED SCREEN
+      organisationDetails();
+      _navigationService.navigateToandRemove(onboardRoute); // TODO Register Data afresh by inputing details.
+    }
+ }
+
+ 
+ organisationDetails(){
+   _v1api.getOrganisationDetails().then((value)async{
+
+                    if(value == null){
+                      
+                        setBusy(false);
+                    showMessage(error: value.toString(), type: 0);
+                         
+                    }else{
+                       if(value.organizations != null){
+                        //TODO ORAGNIZATION SUCCESS, SAVE DATA TO LOCAL STORAGE......
+                        for(int i = 0; i < value.organizations.length; i++){
+                          _customFuntion.saveOrganizationDetails(value.organizations[i]);
+                        }
+ 
+
+                     }else{
+                        //Opps! Failed.
+                         showMessage(error: value.error, type: 0);
+                            setBusy(false);
+                     }
+                    }
+                  }).catchError((e)async{
+                      showMessage(error: e.toString(), type: 0);
+                          setBusy(false);
+                  });
+ } 
 
 }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppImage.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppText.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
 import 'package:virtualtribe/src/WrapperViewModel.dart';
 import 'package:stacked/stacked.dart';
@@ -15,6 +17,7 @@ class WrapperScreen extends StatefulWidget {
 
 class _WrapperScreenState extends State<WrapperScreen> {
    final CustomFunction _customFuntion = locator<CustomFunction>();
+   final NavigationService _navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +38,10 @@ class _WrapperScreenState extends State<WrapperScreen> {
                 style: AppTextStyle.normalStyle(AppColor.black),),
               SizedBox(height: 5,),
               SizedBox(height: 30,),
-              (model.message != null ? Center(child:_customFuntion.errorUimessage(
+              (model.message != null || model.getErrorToken != null 
+              ? Center(child:_customFuntion.errorUimessage(
                 context: context,
-                errorMessage: model.message,
+                errorMessage: model.message == null ? model.getErrorToken : model.message,
                 type: model.errorType
                )) : CircularProgressIndicator()),
 
@@ -64,12 +68,36 @@ class _WrapperScreenState extends State<WrapperScreen> {
                           ),
                         ),
                         onTap: (){
-                          
                           model.handleStartUp();
                         },
-                      ))
-     
+                      )),
 
+            (model.getErrorToken == null ? Container() : GestureDetector(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0, right:6.0, bottom: 20),
+                          child: Container(
+                            height: 40,
+                            child: Material(
+                              child: Center(
+                                child: Text('Validate Token',
+                                  style: TextStyle(
+                                      color: AppColor.white,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.bold
+                                  ),)
+                              ),
+                              color:  AppColor.primary,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(8.0),
+                                  side: BorderSide(color: AppColor.primary)
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: (){
+                         _navigationService.navigateToandRemove(registerRoute);
+                        },
+                      ))
             ],
           ),
         )

@@ -16,11 +16,11 @@ class RegisterInformationScreen extends StatefulWidget {
 
 class _RegisterInformationScreenState extends State<RegisterInformationScreen> {
   
-  TextEditingController emailController, fullNameController, phoneNumberController, accountNumberController, 
+  TextEditingController fullNameController, emailController, phoneNumberController, accountNumberController, // ,
   bankNameController, accountNameController, homeAddressController, guarantorNumberController, guarantorNameController,
   nameOfNextKinController, nameOfNextKinPhoneNumberController, dateOfBirthController;
 BankData _fetchBankModel;
-       String bankName, bankCode;
+String bankName, bankCode;
  final CustomFunction _customFuntion = locator<CustomFunction>();
   
   @override
@@ -32,7 +32,8 @@ BankData _fetchBankModel;
     accountNumberController =  TextEditingController();
     bankNameController =  TextEditingController();
     accountNameController = TextEditingController();
-    homeAddressController = TextEditingController(); guarantorNumberController = TextEditingController();
+    homeAddressController = TextEditingController(); 
+    guarantorNumberController = TextEditingController();
      guarantorNameController = TextEditingController();
     nameOfNextKinController = TextEditingController(); 
     nameOfNextKinPhoneNumberController = TextEditingController();
@@ -44,7 +45,9 @@ BankData _fetchBankModel;
   Widget build(BuildContext context) {
     return ViewModelBuilder<RegisterInfoViewModel>.reactive(
       viewModelBuilder: () => RegisterInfoViewModel(),
-      onModelReady: (model) => model.fetchBanks(),
+      onModelReady: (model) => model.fetchBanks(
+        emailCon: emailController,
+        nameCon: fullNameController, ),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
            backgroundColor: AppColor.primary,
@@ -70,20 +73,22 @@ BankData _fetchBankModel;
             
             Padding(
                      padding: const EdgeInsets.all(10.0),
-                     child: Container(
-                       color: AppColor.grey,
-                       child: TextField(
-                        cursorRadius: Radius.elliptical(10, 20),
-                        controller: emailController,
-                              decoration:  InputDecoration(
-                                hintText: ' aderonke@virtualtribe.ng',
-                                 border: InputBorder.none,
-                                hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-                              ),
-                                  ),
+                     child: AbsorbPointer(
+                       absorbing: true,
+                                            child: Container(
+                         color: AppColor.grey,
+                         child: TextField(
+                          cursorRadius: Radius.elliptical(10, 20),
+                          controller: emailController,
+                                decoration:  InputDecoration(
+                                  hintText: ' aderonke@virtualtribe.ng',
+                                   border: InputBorder.none,
+                                  hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                ),
+                                    ),
+                       ),
                      ),
                    ),
-
 // ==>>> NAME
              Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -102,17 +107,19 @@ BankData _fetchBankModel;
 
              Padding(
                      padding: const EdgeInsets.all(10.0),
-                     child: Container(
-                       color: AppColor.grey,
-                       child: TextField(
-                         controller: fullNameController,
-                        cursorRadius: Radius.elliptical(10, 20),
-                              decoration:  InputDecoration(
-                                hintText: ' Macauley Giddado',
-                                 border: InputBorder.none,
-                                hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-                              ),
-                                  ),
+                     child: AbsorbPointer(
+                       absorbing: true, child: Container(
+                         color: AppColor.grey,
+                         child: TextField(
+                           controller: fullNameController,
+                          cursorRadius: Radius.elliptical(10, 20),
+                                decoration:  InputDecoration(
+                                  hintText: ' Macauley Giddado',
+                                   border: InputBorder.none,
+                                  hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                ),
+                                    ),
+                       ),
                      ),
                    ),
        // ==>>> PHONE NUMBER
@@ -196,6 +203,7 @@ BankData _fetchBankModel;
                         ),
                        ),
                    ),
+
 //==>>>BANK DETAILS
                    Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -337,6 +345,7 @@ Padding(
                     
                     ],),
                   ),
+          
                   Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: Container(
@@ -367,6 +376,7 @@ Padding(
                     
                     ],),
                   ),
+          
                   Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: Container(
@@ -507,15 +517,14 @@ Padding(
                           ),
                         ),
                         onTap: (){
-                          
                           model.register(
-                            accountName: accountNameController.text,
+                            accountName:  accountNameController.text,
                             bankName: bankNameController.text,
                             accountNumber: accountNumberController.text,
-                            email: emailController.text,
-                            fullName: accountNameController.text,//Account name must be d same as user full name//fullNameController.text,
+                            //email: "horlazTesters@g.com", //emailController.text,
+                           //fullName: 'Tester', // accountNameController.text,//Account name must be d same as user full name//fullNameController.text,
                             phoneN: phoneNumberController.text,
-                            guarantorName: guarantorNameController.text,
+                            guarantorName:guarantorNameController.text,
                             guarantorNumber: guarantorNumberController.text,
                             homeAddress: homeAddressController.text,
                             nameOfNextKinController: nameOfNextKinController.text,
@@ -527,12 +536,10 @@ Padding(
        
           ],
       ),
-        ),
-
-      )
-      
+        ),   )     
     );
   }
+  
    setCheckOutDate({String value}){
     setState(() {
 dateOfBirthController.text = value;

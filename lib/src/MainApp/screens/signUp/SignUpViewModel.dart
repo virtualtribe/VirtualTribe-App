@@ -169,7 +169,6 @@ _customFuntion.saveEmailANDToken(
                       userid: value.user.id,
                       lastActivity: value.user.lastActivity
                     );
-                     
                       _navigationService.navigateToandRemove(wrapperRoute);
                     }
                     

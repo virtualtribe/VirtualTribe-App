@@ -4,7 +4,11 @@ const String loginRoute = '/login';
 const String registerRoute = '/register';
 const String dasbhoardRoute = 'dashboard';
 const String settingRoute = 'settings';
+const String transactionScreen = '/transactionScreen';
 const String staffRoute = 'Staff';
+const String sendMoneyRoute = '/sendMoney';
+const String withdrawRoute = '/withdraw';
+const String allStaffRoute = '/allstaff';
 const int passwordLength = 6;
 const String wrapperRoute = 'wrapper';
 const String signInwithEmailLOADERRoute = 'signInwithEmail';
@@ -19,6 +23,7 @@ const String activityRoute = "activityR";
 // ******** COMPANY ***************
 const String cAppDashboardRoute = 'CompanyAppDashboard';
 const String cAReportScreen = 'CompanyAppReport';
+
 
 
 class Constants {

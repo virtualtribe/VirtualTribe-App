@@ -38,6 +38,7 @@ saveSmallData({String email, int userid,
        prefs.setString(Constants.organizationID, organizations.id.toString());
         prefs.setString(Constants.organizationName, organizations.name);
             prefs.setString(Constants.organizationStatus, organizations.status);
+            print('Organisation Name ${organizations.name}');
   }
     
 //EMAIL VALIDATOR

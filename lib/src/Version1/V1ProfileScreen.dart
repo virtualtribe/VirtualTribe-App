@@ -14,10 +14,10 @@ class V1ProfileScreen extends StatefulWidget {
 }
 
 class _V1ProfileScreenState extends State<V1ProfileScreen> {
-  //  TextEditingController emailController, fullNameController, phoneNumberController, accountNumberController, 
-  // bankNameController, accountNameController, homeAddressController, guarantorNumberController, guarantorNameController,
-  // nameOfNextKinController, nameOfNextKinPhoneNumberController, dateOfBirthController;
-  TextEditingController userIdController,  lastActivitiesController, emailController, fullNameController;
+   TextEditingController emailController, fullNameController, phoneNumberController, accountNumberController, 
+  bankNameController, accountNameController, homeAddressController, guarantorNumberController, guarantorNameController,
+  nameOfNextKinController, nameOfNextKinPhoneNumberController, dateOfBirthController;
+  TextEditingController userIdController,  lastActivitiesController; // emailController, fullNameController;
 
  final CustomFunction _customFuntion = locator<CustomFunction>();
   
@@ -26,16 +26,16 @@ class _V1ProfileScreenState extends State<V1ProfileScreen> {
     super.initState();
     emailController = TextEditingController(); //for First Name input
     fullNameController = TextEditingController(); //for Last Name input
-    // phoneNumberController =  TextEditingController();
-    // accountNumberController =  TextEditingController();
-    // bankNameController =  TextEditingController();
-    // accountNameController = TextEditingController();
-    // homeAddressController = TextEditingController();
-    //  guarantorNumberController = TextEditingController();
-    //  guarantorNameController = TextEditingController();
-    // nameOfNextKinController = TextEditingController(); 
-    // nameOfNextKinPhoneNumberController = TextEditingController();
-    // dateOfBirthController = TextEditingController();
+    phoneNumberController =  TextEditingController();
+    accountNumberController =  TextEditingController();
+    bankNameController =  TextEditingController();
+    accountNameController = TextEditingController();
+    homeAddressController = TextEditingController();
+     guarantorNumberController = TextEditingController();
+     guarantorNameController = TextEditingController();
+    nameOfNextKinController = TextEditingController(); 
+    nameOfNextKinPhoneNumberController = TextEditingController();
+    dateOfBirthController = TextEditingController();
       userIdController = TextEditingController();
         lastActivitiesController = TextEditingController();
 
@@ -46,20 +46,20 @@ class _V1ProfileScreenState extends State<V1ProfileScreen> {
     return ViewModelBuilder<V1ProfileScreenViewModel>.reactive(
       viewModelBuilder: () => V1ProfileScreenViewModel(),
       onModelReady: (model) => model.initialized(
-       // accountNameController: accountNameController,
+        accountNameController: accountNameController,
         emailController: emailController,
         fullNameController: fullNameController,
         lastActivitiesController: lastActivitiesController,
-        userIdController: userIdController
-        // phoneNumberController: phoneNumberController,
-        // accountNumberController:accountNumberController,
-        // bankNameController: bankNameController,
-        // homeAddressController: homeAddressController,
-        // guarantorNumberController: guarantorNumberController,
-        // guarantorNameController: guarantorNameController,
-        // nameOfNextKinController : nameOfNextKinController,
-        // nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,
-        // dateOfBirth:  dateOfBirthController
+        userIdController: userIdController,
+        phoneNumberController: phoneNumberController,
+        accountNumberController:accountNumberController,
+        bankNameController: bankNameController,
+        homeAddressController: homeAddressController,
+        guarantorNumberController: guarantorNumberController,
+        guarantorNameController: guarantorNameController,
+        nameOfNextKinController : nameOfNextKinController,
+        nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,
+        dateOfBirth:  dateOfBirthController
       ),
 
        builder: (context, model, child) =>
@@ -174,6 +174,245 @@ class _V1ProfileScreenState extends State<V1ProfileScreen> {
                                       ),
                          ),
                      ),
+                     
+// //==>>>BANK DETAILS
+                    
+                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Bank Account Number', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                             controller: accountNumberController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                             decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Bank Name', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                             controller: bankNameController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                             decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Bank Account Name', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+
+                     Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                             controller: accountNameController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                             decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      
+                     //DOB
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Home Address ', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                             controller: homeAddressController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                                  decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Guarantor Name ', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                              controller: guarantorNameController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                                  decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Guarantor Number ', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                             controller: guarantorNumberController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                                  decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Name of Next of kin', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                                controller: nameOfNextKinController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                                  decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: <Widget>[
+                      Text('Next of kin phone number', 
+                       textAlign: TextAlign.left,
+                            style:  TextStyle(
+                          color: AppColor.black,
+                          fontSize: AppFontSizes.small,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                      ],),
+                    ),
+                    Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Container(
+                           color: AppColor.grey,
+                           child: TextField(
+                              controller: nameOfNextKinPhoneNumberController,
+                            cursorRadius: Radius.elliptical(10, 20),
+                                  decoration:  InputDecoration(
+                                     border: InputBorder.none,
+                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                  ),
+                                      ),
+                         ),
+                     ),
+
                      //DOB
                       Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -205,242 +444,7 @@ class _V1ProfileScreenState extends State<V1ProfileScreen> {
                                       ),
                          ),
                      ),
-// //==>>>BANK DETAILS
-//                      Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Bank Account Number', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-// Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                              controller: accountNumberController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                              decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Bank Name', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                              controller: bankNameController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                              decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                      Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Bank Account Name', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-
-//                      Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                              controller: accountNameController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                              decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-                      
-//                      //DOB
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Home Address ', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                              controller: homeAddressController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                                   decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Guarantor Name ', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                               controller: guarantorNameController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                                   decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Guarantor Number ', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                              controller: guarantorNumberController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                                   decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Name of Next of kin', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                                 controller: nameOfNextKinController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                                   decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
-
-//                       Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(children: <Widget>[
-//                       Text('Next of kin phone number', 
-//                        textAlign: TextAlign.left,
-//                             style:  TextStyle(
-//                           color: AppColor.black,
-//                           fontSize: AppFontSizes.small,
-//                           fontWeight: FontWeight.bold
-//                         ),
-//                       ),
-                      
-//                       ],),
-//                     ),
-//                     Padding(
-//                          padding: const EdgeInsets.all(10.0),
-//                          child: Container(
-//                            color: AppColor.grey,
-//                            child: TextField(
-//                               controller: nameOfNextKinPhoneNumberController,
-//                             cursorRadius: Radius.elliptical(10, 20),
-//                                   decoration:  InputDecoration(
-//                                      border: InputBorder.none,
-//                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-//                                   ),
-//                                       ),
-//                          ),
-//                      ),
+                   
                     SizedBox(
                       height: 20,
                     ),
