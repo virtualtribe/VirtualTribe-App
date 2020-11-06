@@ -5,10 +5,10 @@ import 'package:virtualtribe/src/MainApp/model/UserModel.dart';
 
 class FirestoreService{
 final CollectionReference _userCollectionReference = Firestore.instance.collection('Users');
+
 final CollectionReference _companyCollectionRef = Firestore.instance.collection('Companies'); 
 final CollectionReference _staffsCollectionRef = Firestore.instance.collection('InvitationStaffs'); 
 final CollectionReference _wallectTransactionsCollectionRef = Firestore.instance.collection('WalletTransaction'); 
-
 
 //This will add user details, after successful Registration
 Future  createUser(UserModel userDetails)async{
@@ -99,5 +99,30 @@ Future<DocumentSnapshot> lisofTransactionData({String userID, String transactID}
     return e.message;
   }
 }
+
+  Future<List<DocumentSnapshot>> searchUserByHubstaffID({String userId})async{
+    try{
+      var query = await _userCollectionReference.where('hubstaffID', isEqualTo: userId).getDocuments();
+      return query.documents;
+
+    }catch(e){
+      return e.message;
+    }
+  }
+
+  //SEND MONEY BY UPDATING USER WALLET BALANCE.
+  Future  sendMoney({String staffFirebaseID, String newAmounts})async{
+    Map<String ,Object> newdata = new Map<String ,Object>();
+    newdata['walletBalance'] = newAmounts;
+    try{
+      await _userCollectionReference.document(staffFirebaseID).updateData(
+          newdata
+      );
+
+    }catch(e){
+      return e.message;
+    }
+  }
+
 
 }

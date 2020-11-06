@@ -9,6 +9,7 @@ const String staffRoute = 'Staff';
 const String sendMoneyRoute = '/sendMoney';
 const String withdrawRoute = '/withdraw';
 const String allStaffRoute = '/allstaff';
+const String payeachStaffRoute = '/payeach';
 const int passwordLength = 6;
 const String wrapperRoute = 'wrapper';
 const String signInwithEmailLOADERRoute = 'signInwithEmail';

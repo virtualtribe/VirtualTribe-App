@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtualtribe/src/MainApp/model/OrganisationDetailsModel.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
@@ -18,6 +19,7 @@ saveSmallData({String email, int userid,
   }
   
   saveEmailANDToken({String email, int userid, String token,
+ 
  String name, String lastActivity})async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
        prefs.setString(Constants.email, email);
@@ -25,7 +27,7 @@ saveSmallData({String email, int userid,
        prefs.setString( Constants.userToken,  token);
        prefs.setString(Constants.name,  name);
        prefs.setString(Constants.activityTime,  lastActivity);
-  }
+ }
   
    entredEmail(String providedEMail)async{
     //Temporary saving email when login with email, SO that i can retrieve it and signi with this email and dynamic link
@@ -50,6 +52,18 @@ String validateEmail(String value) {
       return 'Enter Valid Email';
     else
       return null;
+}
+
+toastMessage({String message}){
+  return Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
 }
 
 
@@ -109,6 +123,7 @@ return 'Supervisor';
   }
 }
 //EMPOLYE MANAGEMENT
+
 String employeeManagement(int value){
   switch(value){
 
@@ -125,7 +140,7 @@ return 'Time-Sheet';
   }
 }
 
-  errorUimessage2({String errorMessage, int type, BuildContext context}){
+errorUimessage2({String errorMessage, int type, BuildContext context}){
    return  (errorMessage == null ? SizedBox.shrink() : Center(
      child: Row(
        mainAxisAlignment: MainAxisAlignment.center,

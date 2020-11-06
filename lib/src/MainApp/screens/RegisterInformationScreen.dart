@@ -407,6 +407,7 @@ Padding(
                     
                     ],),
                   ),
+                
                   Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: Container(
@@ -438,6 +439,7 @@ Padding(
                     
                     ],),
                   ),
+               
                   Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: Container(
@@ -469,6 +471,7 @@ Padding(
                     
                     ],),
                   ),
+             
                   Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: Container(
@@ -489,6 +492,7 @@ Padding(
                   _customFuntion.errorUimessage(errorMessage:
                    model.displayMessage3, type: model.displayMessageType3,
                               context: context),
+                  
                   SizedBox(
                     height: 20,
                   ),

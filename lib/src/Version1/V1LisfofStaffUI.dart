@@ -66,11 +66,10 @@ class _V1LisfofStaffUIState extends State<V1LisfofStaffUI> {
                 );
               },
           rightSideItemBuilder: (BuildContext context, int index) {
-            var activityTime = model.getAllMembers[index].lastActivity.trim();
+            var activityTime = (model.getAllMembers[index].lastActivity != null ? model.getAllMembers[index].lastActivity.trim() : model.getAllMembers[index].lastActivity);
            
     return Row(
       children: <Widget>[
-
         Container(
             child: Text(model.getAllMembers[index].name.toString() == null ? " " :model.getAllMembers[index].name.toString()),
             width: 100,
@@ -87,13 +86,6 @@ class _V1LisfofStaffUIState extends State<V1LisfofStaffUI> {
             alignment: Alignment.centerLeft,
           ),
 
-          Container(
-            child: Text(model.getAllMembers[index].membershipStatus.toString() == null ? " " : model.getAllMembers[index].membershipStatus.toString()),
-            width: 200,
-            height: 52,
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-            alignment: Alignment.centerLeft,
-          ),
           
           Container(
             child:  Text(model.getAllMembers[index].lastActivity.toString() == null ? " " : activityTime.toString()),
@@ -145,7 +137,6 @@ class _V1LisfofStaffUIState extends State<V1LisfofStaffUI> {
       ),
           _getTitleItemWidget('Name', 100),
           _getTitleItemWidget('Email', 200),
-          _getTitleItemWidget('Membership Status', 200),
           _getTitleItemWidget('Last Activity', 200),
     ];
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/Version1/viewmodel/V1SendMoneyModel.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
@@ -20,10 +22,12 @@ class V1SendMoneyScreen extends StatefulWidget {
 
 class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
   final CustomFunction _customFuntion = locator<CustomFunction>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
  static const int sortName = 0;
   bool isAscending = true;
   int sortType = sortName;
+  List<String> sendData = new List<String>();
   
   @override
   Widget build(BuildContext context) {
@@ -71,9 +75,9 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
                 );
               },
           rightSideItemBuilder: (BuildContext context, int index) {
-            var activityTime = model.getAllMembers[index].lastActivity.trim();
-           
-    return Row(
+            var activityTime = (model.getAllMembers[index].lastActivity != null ? model.getAllMembers[index].lastActivity.trim() : model.getAllMembers[index].lastActivity);
+
+            return Row(
       children: <Widget>[
 
         Container(
@@ -86,14 +90,6 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
 
            Container(
             child: Text(model.getAllMembers[index].email.toString() == null ? " " : model.getAllMembers[index].email.toString()),
-            width: 200,
-            height: 52,
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-            alignment: Alignment.centerLeft,
-          ),
-
-          Container(
-            child: Text(model.getAllMembers[index].membershipStatus.toString() == null ? " " : model.getAllMembers[index].membershipStatus.toString()),
             width: 200,
             height: 52,
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -112,6 +108,11 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
           child: FlatButton(
             color: Colors.green,
             onPressed: (){
+              sendData.add(model.getAllMembers[index].id.toString());
+               sendData.add(model.getAllMembers[index].name);
+               sendData.add(model.getAllMembers[index].email);
+
+              _navigationService.navigateTo(payeachStaffRoute, arguments: sendData);
             }, child: Text('Pay Now', style: TextStyle(
               color: Colors.white
             )),
@@ -121,25 +122,6 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.centerLeft,
         ),
-
-          Expanded(
-                    child: Container(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                       Icons.done_all,
-                      color: Colors.green),
-                      SizedBox(width: 5),
-                  Text('Pay Now')
-                ],
-              ) ,
-              width: 100,
-              height: 52,
-              padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-              alignment: Alignment.centerLeft,
-            ),
-          ),
-          
       ],
     );
   },
@@ -183,7 +165,6 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
       ),
           _getTitleItemWidget('Name', 100),
           _getTitleItemWidget('Email', 200),
-          _getTitleItemWidget('Membership Status', 200),
           _getTitleItemWidget('Last Activity', 200),
            Expanded(child: _getTitleItemWidget('Action', 100)),
     ];

@@ -4,29 +4,45 @@ import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
 import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
-import 'package:virtualtribe/src/Version1/viewmodel/WithdrawViewModel.dart';
+import 'package:virtualtribe/src/Version1/viewmodel/PayAStaffViewModel.dart';
 import 'package:virtualtribe/src/locator.dart';
 
-class WithdrawScreen extends StatefulWidget {
+class PayAStaffScreen extends StatefulWidget {
+  final List staffDetails;
+  const PayAStaffScreen({this.staffDetails});
+
   @override
-  _WithdrawScreenState createState() => _WithdrawScreenState();
+  _PayAStaffScreenState createState() => _PayAStaffScreenState();
 }
 
-class _WithdrawScreenState extends State<WithdrawScreen> {
-  TextEditingController amountsController;
- final CustomFunction _customFuntion = locator<CustomFunction>();
- 
- @override
+class _PayAStaffScreenState extends State<PayAStaffScreen> {
+  final CustomFunction _customFuntion = locator<CustomFunction>();
+  String id, name, email;
+  TextEditingController nameController, emailController, amountController;
+
+
+  @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    amountsController = TextEditingController(); 
+    nameController = TextEditingController(text: widget.staffDetails[1]); // 1 Name
+    emailController = TextEditingController(text: widget.staffDetails[2]); //2 Email
+     amountController = TextEditingController();
+     print(widget.staffDetails[1]);
+    print(widget.staffDetails[2]);
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.staffDetails.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-     return ViewModelBuilder<WithdrawViewModel>.reactive(
-      viewModelBuilder: () => WithdrawViewModel(),
-      onModelReady: (model) => model.initialized(),
+    return ViewModelBuilder<PayAStaffViewModel>.reactive(
+      viewModelBuilder: () => PayAStaffViewModel(),
+      onModelReady: (model) => model.searchByID(widget.staffDetails[0]),
       builder: (context, model, child) =>
       Scaffold(
         appBar: AppBar(
@@ -37,7 +53,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
            Navigator.of(context).pop(); //NAVIGATE BACK
           },
         ),
-        title: Text('Withdraw Money', 
+        title: Text('Send Money', 
         style: AppTextStyle.rampatStyle(AppColor.white, AppFontSizes.large)),
         ),
         backgroundColor: AppColor.white,
@@ -64,7 +80,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                        child: Container(
                          color: AppColor.grey,
                          child: TextField(
-                           controller: null,
+                           controller: amountController,
                             keyboardType: TextInputType.number,
                           cursorRadius: Radius.elliptical(10, 20),
                            decoration:  InputDecoration(
@@ -75,62 +91,12 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                                     ),
                        ),
                    ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-               child:Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:[
-                      Expanded(
-                      child: Text('Your funds will be withdraw into this account, If you don\'t want this bank account, Goto your profile page to change it', 
-                     textAlign: TextAlign.center,
-                          style:  TextStyle(
-                        color: AppColor.primaryDark,
-                        fontSize: AppFontSizes.small,
-                        fontWeight: FontWeight.normal
-                      ),
-                    ),
-                    )
-                  ]
-                ),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(children: <Widget>[
-                    Text('Bank Name', 
-                     textAlign: TextAlign.left,
-                          style:  TextStyle(
-                        color: AppColor.black,
-                        fontSize: AppFontSizes.small,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    
-                    ],),
-                  ),
-                   AbsorbPointer(
-                     absorbing: true,
-                      child: Padding(
-                         padding: const EdgeInsets.all(10.0),
-                         child: Container(
-                           color: AppColor.grey,
-                           child:  TextField(
-                             controller: null,
-                             onChanged: (value){
-                               
-                             },
-                            cursorRadius: Radius.elliptical(10, 20),
-                             decoration:  InputDecoration(
-                                    hintText: ' ALAT NG',
-                                    border: InputBorder.none,
-                                    hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
-                                  ), )
-                         ),
-                     ),
-                   ),
+               
 
                    Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(children: <Widget>[
-                    Text('Account Number', 
+                    Text('User Email', 
                      textAlign: TextAlign.left,
                           style:  TextStyle(
                         color: AppColor.black,
@@ -149,23 +115,23 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                          child: Container(
                            color: AppColor.grey,
                            child:  TextField(
-                             controller: null,
+                             controller: emailController,
                              onChanged: (value){
                                
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' 071212785',
+                                    hintText: ' 071',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
                          ),
                      ),
                    ),
-                    Padding(
+                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(children: <Widget>[
-                    Text('Account Name', 
+                    Text('Full Name', 
                      textAlign: TextAlign.left,
                           style:  TextStyle(
                         color: AppColor.black,
@@ -177,27 +143,27 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                     ],),
                   ),
 
-                  AbsorbPointer(
+                     AbsorbPointer(
                      absorbing: true,
                       child: Padding(
                          padding: const EdgeInsets.all(10.0),
                          child: Container(
                            color: AppColor.grey,
                            child:  TextField(
-                             controller: null,
+                             controller: nameController,
                              onChanged: (value){
                                
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' OLA OLAJIRE',
+                                    hintText: ' OLa',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
                          ),
                      ),
                    ),
-
+                   
                    SizedBox(
                     height: 20,
                   ),
@@ -213,8 +179,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                             height: 40,
                             child: Material(
                               child: Center(
-                                child: (model.isBusy ?  _customFuntion.loader()
-                                : Text('Proceed',
+                                child: (model.loader ?  _customFuntion.loader()
+                                : Text('SEND',
                                   style: TextStyle(
                                       color: AppColor.white,
                                       fontSize: 17.0,
@@ -230,7 +196,9 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           ),
                         ),
                         onTap: (){
-                          model.proceed(amounts: amountsController.text);
+                          model.sendMoney(
+                            amounts: amountController.text
+                          );
                         },
                       ),
 

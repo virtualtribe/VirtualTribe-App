@@ -24,6 +24,7 @@ initialized()
       name =  prefs.getString(Constants.name);
       walletBalance = formatAmounts.format(double.parse(_authenticationService.currentUser.walletBalance));
       setBusy(false);
+       notifyListeners();
 }
 
 gotoTimesheet(){

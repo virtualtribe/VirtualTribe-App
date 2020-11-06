@@ -42,6 +42,8 @@ class RegisterInfoViewModel extends BaseViewModel{
 SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = prefs.getString(Constants.email);
     String lastname = prefs.getString(Constants.name);
+    int hubstaffID = prefs.getInt(Constants.userId);
+    print('Value ${hubstaffID.runtimeType}');
 
     var user = await _firebaseAuth.currentUser();
 
@@ -79,7 +81,9 @@ SharedPreferences prefs = await SharedPreferences.getInstance();
           homeAddress: homeAddress,
           walletBalance: "0.00",
           nameOfNextKinController:nameOfNextKinController,
-          nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,));
+          nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,
+          hubstaffID: hubstaffID.toString()
+          ));
           
           if(result is String){
              setLoader3(false);
@@ -156,8 +160,7 @@ for (var index = 0; index < value.data.length; index++) {
   }
                   }).catchError((e)async{
                       showMessage(msg: e.toString(), type: 0);
-                          setBusy(false);
-                  });
+  });
 }
 
 List<BankData> getBank() {

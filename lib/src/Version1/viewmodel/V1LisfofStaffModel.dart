@@ -1,4 +1,5 @@
 import 'package:stacked/stacked.dart';
+import 'package:virtualtribe/src/MainApp/model/V1Model/ListofUsersModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/MembersModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/UsersActivities.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
@@ -13,15 +14,14 @@ String _message;
  int get displayMessageType => _messageType;
   String get displayMessage => _message;
     final V1API _v1api = locator<V1API>();
-    List<MemberUsers> _membersList = List<MemberUsers >();
- List<MemberUsers> get getAllMembers => _membersList;
+    List<Users> _membersList = List<Users>();
+ List<Users> get getAllMembers => _membersList;
 
 
 initialise({String startT, stopT}){
 
   setBusy(true);
-  _v1api.getAllMembers( 
-  ).then((value)async{
+  _v1api.getUsersList().then((value)async{
   if(value.users == null){
                         setBusy(false);
                     showMessage(msg: value.error, type: 0);
@@ -42,11 +42,10 @@ for (var index = 0; index < value.users.length; index++) {
   // print('Response Date => ${value.organizations[0].users[0].dates[index].date}');
   //   print('Response Duration => ${value.organizations[0].users[0].dates[index].duration}');
                       _membersList.add(
-                      MemberUsers(
+                          Users(
                         email: value.users[index].email,
                         id: value.users[index].id,
                         lastActivity: value.users[index].lastActivity,
-                        membershipStatus: value.users[index].membershipStatus,
                         name: value.users[index].name,
                       ));
   } 
