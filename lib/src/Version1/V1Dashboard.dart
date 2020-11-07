@@ -1,22 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:intl/intl.dart';
+import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppImage.dart';
+import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
+import 'package:virtualtribe/src/Version1/V1NavDrawer.dart';
 import 'package:virtualtribe/src/Version1/viewmodel/V1DashboardViewModel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:provider/provider.dart';
+import 'package:virtualtribe/src/locator.dart';
+import 'package:virtualtribe/src/services/V1API.dart';
+
 
 class V1Dashboard extends StatefulWidget {
+
   @override
   _V1DashboardState createState() => _V1DashboardState();
 }
 
 class _V1DashboardState extends State<V1Dashboard> {
+final V1API _v1api = locator<V1API>();
+ final FirestoreService _firestoreService = locator<FirestoreService>();
+  final CustomFunction _customFunction = locator<CustomFunction>();
+  final formatAmounts = new NumberFormat("#,##0.00", "en_US");
+   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
      ScreenUtil.init(context, width: 1080, height: 2160, allowFontScaling: false); 
-
       return ViewModelBuilder<V1DashboardViewModel>.reactive(
       viewModelBuilder: () => V1DashboardViewModel(),
       onModelReady: (model) => model.initialized(),
@@ -24,7 +38,9 @@ class _V1DashboardState extends State<V1Dashboard> {
       Container(
               color: Colors.red,
               child: Scaffold(
+                key: _drawerKey,
                 backgroundColor: AppColor.primary,
+                drawer: V1NavDrawer(model: model,),
                 body: Stack(
                   children: <Widget>[
                     Column(children: <Widget>[
@@ -66,33 +82,51 @@ class _V1DashboardState extends State<V1Dashboard> {
                                 ),
                                 ),
                                 onTap: (){
-                                // model.gotoProfile();
+                                  if (_drawerKey.currentState.isEndDrawerOpen) {
+              _drawerKey.currentState.openDrawer();
+            } else {
+              _drawerKey.currentState.openEndDrawer();
+            }
                                 },
                         ),
                       ) 
                         ),
-                     Column(
+                        StreamProvider<DocumentSnapshot>.value(
+        value: _firestoreService.getUserLiveData(model.uid),
+        child: Builder(
+            builder: (context){
+              var snapshot = Provider.of<DocumentSnapshot>(context);
+              if(snapshot == null){
+                return _customFunction.loader();
+              }else{
+                return  Column(
                           children: [
-                    Text(model.walletBalance == null ? "" : "\₦${model.walletBalance}", textAlign: TextAlign.center,
+                    Text(snapshot.data['walletBalance'] == null ? "" : "\₦${formatAmounts.format(double.parse(snapshot.data['walletBalance']))}", //;
+                    textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, 
-                    fontSize: 36, 
+                    fontSize: 25, 
                      fontWeight: FontWeight.w700),),
-                  Text("Available Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Colors.blue[100]),),
+                  Text("Available Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Colors.blue[100]),),
                           ],
-                        ),
+                        );
+              }
+            }
+        ),
+      ),
+                     
                      Container(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 13.0),
                         child: GestureDetector(
                         child: CircleAvatar(
                                 radius: 25,
-                                backgroundColor: Colors.white,
+                                backgroundColor: AppColor.primary,
                                 child: ClipOval(
-                                  child: Image.asset(AppImage.applogo, fit: BoxFit.contain,),
+                                  child: Icon(Icons.notifications, size: 30,)
                                 ),
                                 ),
                                 onTap: (){
-                                 model.gotoProfile();
+                                 //TODO NOTIFICATION PAGE
                                 },
                         ),
                       )
@@ -182,8 +216,8 @@ class _V1DashboardState extends State<V1Dashboard> {
                            },
                             ),
                           ), ],), ],
-                                )
-                              ),
+                )
+               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -201,9 +235,8 @@ class _V1DashboardState extends State<V1Dashboard> {
               )
             ),
             ]),
-
              Positioned(
-                      top: (MediaQuery.of(context).size.width / 1.70),
+                      top: (MediaQuery.of(context).size.width / 1.40), //1.70
                       bottom: 0,
                       left: 0,
                       right: 0,

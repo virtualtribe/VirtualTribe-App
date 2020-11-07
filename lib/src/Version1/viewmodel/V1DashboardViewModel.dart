@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -8,9 +9,11 @@ import 'package:virtualtribe/src/locator.dart';
 
 class V1DashboardViewModel extends BaseViewModel{
 final NavigationService _navigationService = locator<NavigationService>();
-String companyName, walletBalance, name;
+String companyName, email, name;
 final AuthService _authenticationService = locator<AuthService>();
 final formatAmounts = new NumberFormat("#,##0.00", "en_US");
+ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+ String uid;
 
 gotoProfile(){
   _navigationService.navigateTo(profileRoute);
@@ -18,13 +21,15 @@ gotoProfile(){
 
 initialized()
   async{
+    var user = await _firebaseAuth.currentUser();
       setBusy(true);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       companyName =  prefs.getString(Constants.organizationName);
       name =  prefs.getString(Constants.name);
-      walletBalance = formatAmounts.format(double.parse(_authenticationService.currentUser.walletBalance));
+      email = prefs.getString(Constants.email);
       setBusy(false);
-       notifyListeners();
+      notifyListeners();
+      uid = user.uid;
 }
 
 gotoTimesheet(){

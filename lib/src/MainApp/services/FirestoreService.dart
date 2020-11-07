@@ -32,6 +32,21 @@ Future getUser(String uid)async{
     return e.message; 
   }
 }
+
+Stream<DocumentSnapshot> getUserLiveData(String uid){
+  try{
+
+   return  _userCollectionReference.document(uid).snapshots();
+   //return userInfo;
+  //   userInfo.listen((event) {
+  //   return UserModel.fromData(event.data);
+  //  });
+
+  }catch(e){
+    return e.message; 
+  }
+}
+
 //RJQKRueveRSAR68IIQedJY8CX0w2
 //Check if User ID is register on firestore by getting uer document ID.
 Future checkUserID({String userID})async{

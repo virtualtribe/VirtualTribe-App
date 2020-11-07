@@ -17,7 +17,6 @@ bool loader = false;
   int _messageType;
    int get displayMessageType => _messageType;
 
-  
 
 sendMoney({String amounts})async{
   showMessage(msg: null);
@@ -49,7 +48,6 @@ sendMoney({String amounts})async{
       showMessage(msg: e.toString(), type: 0);
   setLoader(false);
   }
-
   }
 }
 
@@ -64,7 +62,7 @@ searchByID(String hubstaffID)async{
     setBusy(false);
     currentStaffFirebaseID = result[0].data['id'];
     currentPreviousWalletBalance = result[0].data['walletBalance'];
-    // print("Current User Firebase ID => $currentStaffFirebaseID");
+    print("Current User Firebase ID => $currentStaffFirebaseID");
     // print("Current User Wallet Balance => $currentPreviousWalletBalance");
   }
 }
@@ -79,4 +77,6 @@ setLoader(bool value){
   loader = value;
   notifyListeners();
 }
+
+
 }

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
@@ -13,20 +16,29 @@ class WithdrawScreen extends StatefulWidget {
 }
 
 class _WithdrawScreenState extends State<WithdrawScreen> {
-  TextEditingController amountsController;
+  TextEditingController amountsController, bankNameController, accountNumberController, accountNameController;
  final CustomFunction _customFuntion = locator<CustomFunction>();
+ final FirestoreService _firestoreService = locator<FirestoreService>();
+  final CustomFunction _customFunction = locator<CustomFunction>();
  
  @override
   void initState() {
     super.initState();
     amountsController = TextEditingController(); 
+    bankNameController = TextEditingController();
+    accountNumberController = TextEditingController();
+    accountNameController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
      return ViewModelBuilder<WithdrawViewModel>.reactive(
       viewModelBuilder: () => WithdrawViewModel(),
-      onModelReady: (model) => model.initialized(),
+      onModelReady: (model) => model.initialized(
+        accountNameController: accountNameController,
+        accountNumberController: accountNumberController,
+        bankNameController: bankNameController,
+      ),
       builder: (context, model, child) =>
       Scaffold(
         appBar: AppBar(
@@ -92,7 +104,9 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                     )
                   ]
                 ),),
-                  Padding(
+                  Column(
+                   children: [
+                       Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(children: <Widget>[
                     Text('Bank Name', 
@@ -113,13 +127,12 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                          child: Container(
                            color: AppColor.grey,
                            child:  TextField(
-                             controller: null,
+                             controller: bankNameController,
                              onChanged: (value){
                                
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' ALAT NG',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
@@ -149,13 +162,12 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                          child: Container(
                            color: AppColor.grey,
                            child:  TextField(
-                             controller: null,
+                             controller: accountNumberController,
                              onChanged: (value){
                                
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' 071212785',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
@@ -184,20 +196,20 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                          child: Container(
                            color: AppColor.grey,
                            child:  TextField(
-                             controller: null,
+                             controller: accountNameController, 
                              onChanged: (value){
                                
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' OLA OLAJIRE',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
                          ),
                      ),
                    ),
-
+                   ],
+                 ),
                    SizedBox(
                     height: 20,
                   ),
@@ -213,7 +225,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                             height: 40,
                             child: Material(
                               child: Center(
-                                child: (model.isBusy ?  _customFuntion.loader()
+                                child: (model.loader ?  _customFuntion.loader()
                                 : Text('Proceed',
                                   style: TextStyle(
                                       color: AppColor.white,
