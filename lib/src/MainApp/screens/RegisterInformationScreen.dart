@@ -521,6 +521,7 @@ Padding(
                           ),
                         ),
                         onTap: (){
+                         
                           model.register(
                             accountName:  accountNameController.text,
                             bankName: bankNameController.text,
@@ -533,7 +534,8 @@ Padding(
                             homeAddress: homeAddressController.text,
                             nameOfNextKinController: nameOfNextKinController.text,
                             nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController.text,
-                            dateoFBirth: dateOfBirthController.text
+                            dateoFBirth: dateOfBirthController.text,
+                            bankCode: bankCode,
                           );
                         },
                       ),

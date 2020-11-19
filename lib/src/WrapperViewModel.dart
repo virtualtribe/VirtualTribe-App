@@ -117,6 +117,7 @@ void handleStartUp()async{
                               userid: value.users[i].id,
                               email:  value.users[i].email,
                               lastActivity: value.users[i].lastActivity
+
                               
                             );
                             _navigationService.navigateToandRemove(v1dashboard);

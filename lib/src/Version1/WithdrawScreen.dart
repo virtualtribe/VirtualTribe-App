@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
@@ -16,7 +14,8 @@ class WithdrawScreen extends StatefulWidget {
 }
 
 class _WithdrawScreenState extends State<WithdrawScreen> {
-  TextEditingController amountsController, bankNameController, accountNumberController, accountNameController;
+  TextEditingController amountsController, bankNameController, 
+  accountNumberController, accountNameController, reasonController;
  final CustomFunction _customFuntion = locator<CustomFunction>();
  final FirestoreService _firestoreService = locator<FirestoreService>();
   final CustomFunction _customFunction = locator<CustomFunction>();
@@ -28,6 +27,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
     bankNameController = TextEditingController();
     accountNumberController = TextEditingController();
     accountNameController = TextEditingController();
+    reasonController = TextEditingController();
   }
 
   @override
@@ -76,7 +76,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                        child: Container(
                          color: AppColor.grey,
                          child: TextField(
-                           controller: null,
+                           controller: amountsController,
                             keyboardType: TextInputType.number,
                           cursorRadius: Radius.elliptical(10, 20),
                            decoration:  InputDecoration(
@@ -87,6 +87,38 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                                     ),
                        ),
                    ),
+              
+               Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(children: <Widget>[
+                    Text('Reasons', 
+                     textAlign: TextAlign.left,
+                          style:  TextStyle(
+                        color: AppColor.black,
+                        fontSize: AppFontSizes.small,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    
+                    ],),
+                  ),
+                  Padding(
+                       padding: const EdgeInsets.all(10.0),
+                       child: Container(
+                         color: AppColor.grey,
+                         child: TextField(
+                           controller: reasonController,
+                            keyboardType: TextInputType.text,
+                          cursorRadius: Radius.elliptical(10, 20),
+                           decoration:  InputDecoration(
+                                  hintText: ' I want to credit a staff',
+                                   border: InputBorder.none,
+                                  hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
+                                ),
+                                    ),
+                       ),
+                   ),
+              
                 Padding(
                     padding: const EdgeInsets.all(8.0),
                child:Row(
@@ -225,7 +257,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                             height: 40,
                             child: Material(
                               child: Center(
-                                child: (model.loader ?  _customFuntion.loader()
+                                child: (model.isBusy ?  _customFuntion.loader()
                                 : Text('Proceed',
                                   style: TextStyle(
                                       color: AppColor.white,
@@ -242,7 +274,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           ),
                         ),
                         onTap: (){
-                          model.proceed(amounts: amountsController.text);
+                          model.proceed(amounts: amountsController.text, reasons: reasonController.text);
                         },
                       ),
 

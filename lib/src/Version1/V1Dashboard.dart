@@ -13,6 +13,7 @@ import 'package:stacked/stacked.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualtribe/src/locator.dart';
 import 'package:virtualtribe/src/services/V1API.dart';
+import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 
 
 class V1Dashboard extends StatefulWidget {
@@ -138,7 +139,9 @@ final V1API _v1api = locator<V1API>();
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                            GestureDetector(
+                  //* Withdraw money is for the Staff
+                // * Send Money is for the Admin(Firebase)
+                           (model.userRole == Constants.userRoleStaff ?  GestureDetector(
                          child: Container(
                          child: Column(
                            children: <Widget>[
@@ -161,10 +164,7 @@ final V1API _v1api = locator<V1API>();
                          onTap:(){
                            model.gotoWithraw();
                          }
-                            ), 
-
-
-                           Container(
+                            ) : Container(
                          child: GestureDetector(
                           child: Column(
                              children: <Widget>[
@@ -187,8 +187,11 @@ final V1API _v1api = locator<V1API>();
                                model.gotoSendMoney();
                            },
                          )
-                         ),
+                         )
+),
 
+
+                           
                           Padding(
                             padding: const EdgeInsets.only(right: 13.0),
                             child: GestureDetector(
@@ -357,7 +360,8 @@ final V1API _v1api = locator<V1API>();
                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                             Container(
+                             //**ALL STAFF */
+                            (model.userRole == Constants.userRoleAdmin ?  Container(
                          child: GestureDetector(
                            child: Column(
                              children: <Widget>[
@@ -381,13 +385,9 @@ final V1API _v1api = locator<V1API>();
                               model.gotoViewAllStaff();
                            },
                          ),                        
-                         ),
-                             
+                         ) : SizedBox.shrink()) 
                            ],
-                         )
-                                           
-                                          ],
-                                        )),
+                         ) ], )),
                                     
                                   ],
                                 ),
@@ -395,6 +395,7 @@ final V1API _v1api = locator<V1API>();
                             )),
                       ),
                     ),
+         
             ])
             )));
   }

@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:virtualtribe/src/MainApp/model/CreateRecipientCode.dart';
 import 'package:virtualtribe/src/MainApp/model/OrganisationDetailsModel.dart';
+import 'package:virtualtribe/src/MainApp/model/TransferFundModel.dart';
+import 'package:virtualtribe/src/MainApp/model/V1Model/FinalizeTransfer.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/ListofUsersModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/AuthenticationModel.dart';
 import 'package:virtualtribe/src/MainApp/model/V1Model/MembersModel.dart';
@@ -339,6 +341,163 @@ class V1API implements V1BaseAPI {
       //Exception if there's invalid Http
       print(e.toString());
       throw Failure(e.toString()); //AppText.badrequest
+    }
+  }
+
+  @override
+  Future<CreateRecipientCode> createPaymentCode({String name, String accountNumber,
+    String bankCode})async{
+    Map<String, String> header = new HashMap();
+    header['Authorization'] = 'Bearer sk_test_92986ddcf33dee873e073504038784f0a6ed8906';//AppText.paytStackHeader;
+
+    Map<String, String> body = new HashMap();
+    body['type'] = "nuban";
+    body['name'] = name;
+    body['account_number'] = accountNumber;
+    body['bank_code'] = bankCode;
+
+    try {
+      var response = await http.post(_url.createRecipent,
+          headers: header, body: body
+      ).timeout(Duration(seconds: httpDuration));
+
+      var convert = json.decode(response.body);
+      print('Response $convert');
+
+      if(convert == null){
+        return null;
+
+      }else{
+
+        if(response.statusCode == 200){
+          CreateRecipientCode createRecipientCode = CreateRecipientCode.fromJson(convert);
+          return createRecipientCode;
+
+        }else{
+          CreateRecipientCode createRecipientCode = CreateRecipientCode.fromJson(convert);
+          return createRecipientCode;
+        }
+
+      }
+    } on TimeoutException catch (e) {
+      //Exception if data load for 5 seconds and no response
+
+      throw Failure(AppText.timeoutException);
+
+    } on SocketException catch (_) {
+      //Exception if there's no Internet
+      throw Failure(AppText.noInternet);
+
+    }on HttpException {
+      //Exception if there's invalid request
+      throw Failure(AppText.badposturl);
+
+    }on FormatException {
+      //Exception if there's invalid Http
+      throw Failure(AppText.badrequest);
+    }
+  }
+
+  @override
+  Future<TransferFundModel> transferFund({String amounts, String recipient, String reasons})async{
+    Map<String, String> header = new HashMap();
+    header['Authorization'] = AppText.paytStackHeader;
+
+    Map<String, String> body = new HashMap();
+    body['source'] = "balance";
+    body['amount'] = amounts;
+    body['recipient'] = recipient;
+    body['reason'] = reasons;
+    body['currency'] = "NGN";
+
+    try {
+      var response = await http.post(_url.transfer1,
+          headers: header, body: body
+      ).timeout(Duration(seconds: httpDuration));
+
+      var convert = json.decode(response.body);
+
+      if(convert == null){
+        return null;
+
+      }else{
+
+        if(response.statusCode == 200){
+          TransferFundModel transferFundModel = TransferFundModel.fromJson(convert);
+          return transferFundModel;
+
+        }else{
+          TransferFundModel transferFundModel = TransferFundModel.fromJson(convert);
+          return transferFundModel;
+        }
+
+      }
+    } on TimeoutException catch (e) {
+      //Exception if data load for 5 seconds and no response
+
+      throw Failure(AppText.timeoutException);
+
+    } on SocketException catch (_) {
+      //Exception if there's no Internet
+      throw Failure(AppText.noInternet);
+
+    }on HttpException {
+      //Exception if there's invalid request
+      throw Failure(AppText.badposturl);
+
+    }on FormatException {
+      //Exception if there's invalid Http
+      throw Failure(AppText.badrequest);
+    }
+  }
+
+  @override
+  Future<FinalizeTransfer> verifyTransferOTP({String transferCode, String otp})async{
+    Map<String, String> header = new HashMap();
+    header['Authorization'] = AppText.paytStackHeader;
+
+    Map<String, String> body = new HashMap();
+    body['transfer_code'] = transferCode;
+    body['otp'] = otp;
+
+    try {
+      var response = await http.post(_url.transfer1_Final,
+          headers: header, body: body
+      ).timeout(Duration(seconds: httpDuration));
+
+      var convert = json.decode(response.body);
+
+      if(convert == null){
+        return null;
+
+      }else{
+
+        if(response.statusCode == 200){
+          FinalizeTransfer finalizeTransfer = FinalizeTransfer.fromJson(convert);
+          return finalizeTransfer;
+
+        }else{
+          FinalizeTransfer finalizeTransfer = FinalizeTransfer.fromJson(convert);
+          return finalizeTransfer;
+        }
+
+      }
+    } on TimeoutException catch (e) {
+      //Exception if data load for 5 seconds and no response
+
+      throw Failure(AppText.timeoutException);
+
+    } on SocketException catch (_) {
+      //Exception if there's no Internet
+      throw Failure(AppText.noInternet);
+
+    }on HttpException {
+      //Exception if there's invalid request
+      throw Failure(AppText.badposturl);
+
+    }on FormatException {
+      //Exception if there's invalid Http
+      throw Failure(AppText.badrequest);
     }
   }
 }

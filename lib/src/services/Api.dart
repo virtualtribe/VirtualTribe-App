@@ -129,6 +129,7 @@ class API implements BaseApi {
     }
   }
 
+  //FROM PAYSTACK
   @override
   Future<FetchBankModel> getBanks() async{
    Map<String, String> header = new HashMap();
@@ -174,6 +175,7 @@ class API implements BaseApi {
     }
   }
 
+  //VERIFY BANK FROM PAYSTACK
   @override
   Future<BankInfoModel> getBankInfo({String accountNumber, String bankCode})async{
      Map<String, String> header = new HashMap();

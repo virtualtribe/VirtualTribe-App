@@ -13,9 +13,9 @@ class AppTextStyle{
         color: color));
   }
 
-  static TextStyle normalStyle(Color color) {
+  static TextStyle normalStyle(Color color, double size,) {
    return GoogleFonts.roboto(
-      fontSize: AppFontSizes.smallest,
+      fontSize: size,
      textStyle: 
     TextStyle(
         color: color));

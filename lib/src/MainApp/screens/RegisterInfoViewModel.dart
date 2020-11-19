@@ -23,6 +23,7 @@ class RegisterInfoViewModel extends BaseViewModel{
    int get displayMessageType2 => _messageType2;
    int get displayMessageType3 => _messageType3;
    String getName, getEmail;
+   String userRole;
 
      final FirestoreService _firestoreService = locator<FirestoreService>();
      final NavigationService _navigationService = locator<NavigationService>();
@@ -37,14 +38,12 @@ class RegisterInfoViewModel extends BaseViewModel{
     String accountNumber, String accountName, String bankName,
   String  homeAddress, String guarantorName, String guarantorNumber, 
   String nameOfNextKinController, String nameOfNextKinPhoneNumberController,
- String phoneN,  String dateoFBirth})async{
+ String phoneN,  String dateoFBirth, String bankCode})async{
      showMessage3(msg: null);
 SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = prefs.getString(Constants.email);
     String lastname = prefs.getString(Constants.name);
     int hubstaffID = prefs.getInt(Constants.userId);
-    print('Value ${hubstaffID.runtimeType}');
-
     var user = await _firebaseAuth.currentUser();
 
     if(accountNumber.isEmpty
@@ -60,8 +59,10 @@ SharedPreferences prefs = await SharedPreferences.getInstance();
         showMessage3(msg: 'Invalid Phone Number', type: 0);
 
       }else{
+        await checkNumberofUsers();
     setLoader3(true);
     dynamic _result = _auth.signInAnonymous();
+    
     if(_result != null){
       print(_result.toString());
 
@@ -79,10 +80,12 @@ SharedPreferences prefs = await SharedPreferences.getInstance();
           guarantorName: guarantorName,
           guarantorNumber: guarantorNumber,
           homeAddress: homeAddress,
-          walletBalance: "0.00",
-          nameOfNextKinController:nameOfNextKinController,
+          walletBalance: "0",
+          nameOfNextKinController: nameOfNextKinController,
           nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,
-          hubstaffID: hubstaffID.toString()
+          hubstaffID: hubstaffID.toString(),
+          myBankCode: bankCode,
+          role: userRole,
           ));
           
           if(result is String){
@@ -205,5 +208,17 @@ List<BankData> getBank() {
    setLoader3(bool value){
      loader3 = value;
      notifyListeners();
+   }
+
+
+   checkNumberofUsers()async{
+      var result =  await _firestoreService.numberofUsers();
+      if(result.length > 1){
+        userRole = "Staff"; 
+      }else{
+        userRole = "Admin";
+      }
+      print(result.length);
+       print(userRole);
    }
 }

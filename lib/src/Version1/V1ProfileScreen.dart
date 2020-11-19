@@ -21,28 +21,26 @@ class _V1ProfileScreenState extends State<V1ProfileScreen> {
   TextEditingController userIdController,  lastActivitiesController; // emailController, fullNameController;
 
  final CustomFunction _customFuntion = locator<CustomFunction>();
-  bool edit;
   BankData _fetchBankModel;
-String bankName, bankCode;
+  String bankName, bankCode;
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController(); //for First Name input
-    fullNameController = TextEditingController(); //for Last Name input
-    phoneNumberController =  TextEditingController();
-    accountNumberController =  TextEditingController();
-    bankNameController =  TextEditingController();
-    accountNameController = TextEditingController();
-    homeAddressController = TextEditingController();
-     guarantorNumberController = TextEditingController();
-     guarantorNameController = TextEditingController();
-    nameOfNextKinController = TextEditingController(); 
-    nameOfNextKinPhoneNumberController = TextEditingController();
-    dateOfBirthController = TextEditingController();
-      userIdController = TextEditingController();
-        lastActivitiesController = TextEditingController();
-
+   emailController = TextEditingController(); //for First Name input
+   fullNameController = TextEditingController(); //for Last Name input
+   phoneNumberController =  TextEditingController();
+   accountNumberController =  TextEditingController();
+   bankNameController =  TextEditingController();
+   accountNameController = TextEditingController();
+   homeAddressController = TextEditingController();
+   guarantorNumberController = TextEditingController();
+   guarantorNameController = TextEditingController();
+  nameOfNextKinController = TextEditingController();
+  nameOfNextKinPhoneNumberController = TextEditingController();
+  dateOfBirthController = TextEditingController();
+  userIdController = TextEditingController();
+  lastActivitiesController = TextEditingController();
   }
 
   @override
@@ -88,15 +86,13 @@ String bankName, bankCode;
                           child: Icon(FontAwesome.edit, size: 30, color:  Colors.white,),
                         ),
                         onTap:(){
-                        if(edit){
+                        if(model.getEdit){
                              model.editable(value: false);
                         }else{
                            model.editable(value: true);
                         }
-                        
                         }
-                      ), 
-
+                      ),
                     ],
         ),
         body:  SingleChildScrollView(
@@ -548,7 +544,18 @@ Padding(
                           ),
                         ),
                         onTap: (){
-                          model.editable(value: false);
+                          model.update(
+                            accountNameController: accountNameController,
+                            accountNumberController: accountNumberController,
+                            bankNameController: bankNameController,
+                            dateOfBirth: dateOfBirthController,
+                            guarantorNameController: guarantorNameController,
+                            guarantorNumberController: guarantorNumberController,
+                            homeAddressController: homeAddressController,
+                            nameOfNextKinController: nameOfNextKinController,
+                            nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController,
+                            phoneNumberController: phoneNumberController,
+                          );
                           
                         },
                       ), 

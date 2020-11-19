@@ -126,7 +126,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
         ),
       Text(
               'Weekly',
-              style: AppTextStyle.normalStyle(AppColor.darkGrey)
+              style: AppTextStyle.normalStyle(AppColor.darkGrey, AppFontSizes.smallest)
             ),
 SizedBox(width: 20.0,),
       Radio(
@@ -140,7 +140,7 @@ SizedBox(width: 20.0,),
         ),
       Text(
               'Monthly',
-              style: AppTextStyle.normalStyle(AppColor.darkGrey)
+              style: AppTextStyle.normalStyle(AppColor.darkGrey, AppFontSizes.smallest)
             ),
 
   ],

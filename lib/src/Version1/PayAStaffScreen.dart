@@ -20,7 +20,6 @@ class _PayAStaffScreenState extends State<PayAStaffScreen> {
   String id, name, email;
   TextEditingController nameController, emailController, amountController;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,6 +30,7 @@ class _PayAStaffScreenState extends State<PayAStaffScreen> {
      print(widget.staffDetails[1]);
     print(widget.staffDetails[2]);
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -156,7 +156,7 @@ class _PayAStaffScreenState extends State<PayAStaffScreen> {
                              },
                             cursorRadius: Radius.elliptical(10, 20),
                              decoration:  InputDecoration(
-                                    hintText: ' OLa',
+                                    hintText: ' Ola',
                                     border: InputBorder.none,
                                     hintStyle: AppTextStyle.rampatStyle(AppColor.darkGrey, AppFontSizes.medium)
                                   ), )
@@ -185,7 +185,8 @@ class _PayAStaffScreenState extends State<PayAStaffScreen> {
                                       color: AppColor.white,
                                       fontSize: 17.0,
                                       fontWeight: FontWeight.bold
-                                  ),))
+                                  ),
+                                ))
                               ),
                               color:  AppColor.primary,
                               shape: RoundedRectangleBorder(
@@ -208,4 +209,5 @@ class _PayAStaffScreenState extends State<PayAStaffScreen> {
         )
     );
   }
+
 }

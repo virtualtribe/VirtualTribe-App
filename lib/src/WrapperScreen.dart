@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppImage.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppText.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
@@ -35,7 +36,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
               Image.asset(AppImage.applogo, width: 150,), //height: 100,
                SizedBox(height: 5,), 
               Text(AppText.slogan,
-                style: AppTextStyle.normalStyle(AppColor.black),),
+                style: AppTextStyle.normalStyle(AppColor.black, AppFontSizes.smallest),),
               SizedBox(height: 5,),
               SizedBox(height: 30,),
               (model.message != null || model.getErrorToken != null 

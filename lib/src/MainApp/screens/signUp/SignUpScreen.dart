@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(AppText.sigUpT1, style: AppTextStyle.normalStyle(AppColor.darkGrey),),
+              Text(AppText.sigUpT1, style: AppTextStyle.normalStyle(AppColor.darkGrey, AppFontSizes.smallest),),
               verticalSpaceMedium,
                Padding(
                  padding: const EdgeInsets.all(10.0),

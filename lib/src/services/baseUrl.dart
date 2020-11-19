@@ -13,4 +13,7 @@ class BaseUrl{
   final String activities = 'https://api.hubstaff.com/v1/activities?start_time=';
   final String getOrganisationDetailsLink = "https://api.hubstaff.com/v1/organizations";
   final String getAllMembersLink = "https://api.hubstaff.com/v1/organizations";
+  final String createRecipent = "https://api.paystack.co/transferrecipient";
+  final String transfer1 = "https://api.paystack.co/transfer";
+  final String transfer1_Final = "https://api.paystack.co/transfer/finalize_transfer";
 }

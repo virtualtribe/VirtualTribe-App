@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:virtualtribe/src/Version1/V1Dashboard.dart';
+import 'package:virtualtribe/src/MainApp/screens/RegisterInformationScreen.dart';
 import 'package:virtualtribe/src/WrapperScreen.dart';
 import 'package:virtualtribe/src/locator.dart';
 import 'package:virtualtribe/src/route.dart';

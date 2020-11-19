@@ -21,6 +21,7 @@ const String profileRoute = "profileRoute";
 const String timesheetRoute = "timesheetScreen";
 const String testerRoute = "tester"; //
 const String activityRoute = "activityR";
+const String transferOtp = '/transferOTP';
 // ******** COMPANY ***************
 const String cAppDashboardRoute = 'CompanyAppDashboard';
 const String cAReportScreen = 'CompanyAppReport';
@@ -33,13 +34,13 @@ class Constants {
   static const String userToken = 'mytoken'; //, name
   static const String activityTime = 'activity';
   static const String name = 'name';
+  static const String bankCode = 'code';
   static const String enteredEmail = 'EntredEmail';
   static const String organizationID = 'orgaId';
   static const String organizationName = 'name';  
   static const String organizationTime_zone = 'time_zone'; 
   static const String organizationStatus = 'status'; 
-
-
-
+    static const String userRoleAdmin = 'Admin'; 
+  static const String userRoleStaff = 'Staff'; 
   static const String passwordlessDynamicUrl = 'https://virtualtribeapp.page.link';
 }

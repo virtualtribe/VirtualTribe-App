@@ -9,7 +9,7 @@ import 'package:virtualtribe/src/locator.dart';
 
 class V1DashboardViewModel extends BaseViewModel{
 final NavigationService _navigationService = locator<NavigationService>();
-String companyName, email, name;
+String companyName, email, name,  userRole;
 final AuthService _authenticationService = locator<AuthService>();
 final formatAmounts = new NumberFormat("#,##0.00", "en_US");
  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -27,6 +27,8 @@ initialized()
       companyName =  prefs.getString(Constants.organizationName);
       name =  prefs.getString(Constants.name);
       email = prefs.getString(Constants.email);
+      userRole =  _authenticationService.currentUser.role;
+      print('User Role => $userRole');
       setBusy(false);
       notifyListeners();
       uid = user.uid;

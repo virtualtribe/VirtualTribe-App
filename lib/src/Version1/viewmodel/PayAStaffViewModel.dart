@@ -11,25 +11,26 @@ String get displayMessage => _message;
 final AuthService _authenticationService = locator<AuthService>();
 final FirestoreService _firestoreService = locator<FirestoreService>();
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-String currentStaffFirebaseID, currentPreviousWalletBalance;
+String currentStaffFirebaseID, currentPreviousWalletBalance, userBankCode, userBankName, userAccountNumber, userAccountName;
+
 bool loader = false;
 
   int _messageType;
-   int get displayMessageType => _messageType;
-
+  int get displayMessageType => _messageType;
 
 sendMoney({String amounts})async{
   showMessage(msg: null);
+
   if(amounts.isEmpty){
  showMessage(msg: 'Amounts is Empty', type: 0);
-  }else{
 
+  }else{
     int currentBalance = int.parse(currentPreviousWalletBalance);
     int  enteredAmounts = int.parse(amounts);
     var newTotalBalance = currentBalance + enteredAmounts;
 
     try{
-    var result = await _firestoreService.sendMoney(
+    var result = await _firestoreService.addAndDeductMoney(
       staffFirebaseID: currentStaffFirebaseID,
       newAmounts: newTotalBalance.toString()
     );
@@ -46,8 +47,9 @@ sendMoney({String amounts})async{
 
   }catch(e){
       showMessage(msg: e.toString(), type: 0);
-  setLoader(false);
+      setLoader(false);
   }
+
   }
 }
 
@@ -62,7 +64,11 @@ searchByID(String hubstaffID)async{
     setBusy(false);
     currentStaffFirebaseID = result[0].data['id'];
     currentPreviousWalletBalance = result[0].data['walletBalance'];
-    print("Current User Firebase ID => $currentStaffFirebaseID");
+    print("Current User Firebase ID => $currentStaffFirebaseID"); //myBankCode, bankName, accountName, accountNumber
+    userBankCode = result[0].data['myBankCode'];
+    userBankName = result[0].data['bankName'];
+    userAccountNumber = result[0].data['accountNumber'];
+    userAccountName= result[0].data['accountName'];
     // print("Current User Wallet Balance => $currentPreviousWalletBalance");
   }
 }
@@ -77,6 +83,5 @@ setLoader(bool value){
   loader = value;
   notifyListeners();
 }
-
 
 }

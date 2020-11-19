@@ -19,7 +19,18 @@ try{
   }catch(e){
     return e.message; 
   }
+  
 }
+
+  Future  updateUserDetails(UserModel userDetails)async{
+    try{
+      await _userCollectionReference.document(userDetails.id).updateData(
+          userDetails.toJson());
+
+    }catch(e){
+      return e.message;
+    }
+  }
 
   //Get User Data
 Future getUser(String uid)async{
@@ -32,6 +43,17 @@ Future getUser(String uid)async{
     return e.message; 
   }
 }
+
+Future<List<DocumentSnapshot>>  numberofUsers()async{
+  try{
+
+   var userInfo = await _userCollectionReference.getDocuments();
+   return userInfo.documents;
+
+  }catch(e){
+    return e.message; 
+  }
+  }
 
 Stream<DocumentSnapshot> getUserLiveData(String uid){
   try{
@@ -49,6 +71,7 @@ Stream<DocumentSnapshot> getUserLiveData(String uid){
 
 //RJQKRueveRSAR68IIQedJY8CX0w2
 //Check if User ID is register on firestore by getting uer document ID.
+
 Future checkUserID({String userID})async{
   var document = await _userCollectionReference.document(userID).get(); //userID
   return document.data;
@@ -115,7 +138,7 @@ Future<DocumentSnapshot> lisofTransactionData({String userID, String transactID}
   }
 }
 
-  Future<List<DocumentSnapshot>> searchUserByHubstaffID({String userId})async{
+Future<List<DocumentSnapshot>> searchUserByHubstaffID({String userId})async{
     try{
       var query = await _userCollectionReference.where('hubstaffID', isEqualTo: userId).getDocuments();
       return query.documents;
@@ -126,7 +149,7 @@ Future<DocumentSnapshot> lisofTransactionData({String userID, String transactID}
   }
 
   //SEND MONEY BY UPDATING USER WALLET BALANCE.
-  Future  sendMoney({String staffFirebaseID, String newAmounts})async{
+  Future addAndDeductMoney({String staffFirebaseID, String newAmounts})async{
     Map<String ,Object> newdata = new Map<String ,Object>();
     newdata['walletBalance'] = newAmounts;
     try{
@@ -138,6 +161,4 @@ Future<DocumentSnapshot> lisofTransactionData({String userID, String transactID}
       return e.message;
     }
   }
-
-
 }

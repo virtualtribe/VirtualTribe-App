@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtualtribe/src/MainApp/model/OrganisationDetailsModel.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
+import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
 import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,9 +43,9 @@ saveSmallData({String email, int userid,
             prefs.setString(Constants.organizationStatus, organizations.status);
             print('Organisation Name ${organizations.name}');
   }
-    
+
 //EMAIL VALIDATOR
-String validateEmail(String value) {
+ String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
@@ -60,7 +61,7 @@ toastMessage({String message}){
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
+        backgroundColor: AppColor.primary,
         textColor: Colors.white,
         fontSize: 16.0
     );
@@ -81,10 +82,9 @@ errorUimessage({String errorMessage, int type, BuildContext context}){
         textAlign: TextAlign.justify,
      overflow: TextOverflow.ellipsis,
          maxLines: 5,
-           style: AppTextStyle.normalStyle((type == 1 ? Colors.green : Colors.red),)
+           style: AppTextStyle.normalStyle((type == 1 ? Colors.green : Colors.red), AppFontSizes.small)
            ),)
          
-
        ],),
    ));
   }
@@ -151,14 +151,12 @@ errorUimessage2({String errorMessage, int type, BuildContext context}){
         textAlign: TextAlign.justify,
      overflow: TextOverflow.ellipsis,
          maxLines: 5,
-           style: AppTextStyle.normalStyle((type == 1 ? Colors.green : Colors.red),)
+           style: AppTextStyle.normalStyle((type == 1 ? Colors.green : Colors.red), AppFontSizes.smallest)
            ),)
          
 
        ],),
    ));
   }
-
- 
 }
 

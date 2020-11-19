@@ -13,6 +13,7 @@ import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/StaffApp/StaffDasboard/StaffDasbhoard.dart';
 import 'package:virtualtribe/src/Version1/MyTransactionsScreen.dart';
 import 'package:virtualtribe/src/Version1/PayAStaffScreen.dart';
+import 'package:virtualtribe/src/Version1/TransferOTPScreen.dart';
 import 'package:virtualtribe/src/Version1/V1ActivitiesScreen.dart';
 import 'package:virtualtribe/src/Version1/V1LisfofStaffUI.dart';
 import 'package:virtualtribe/src/Version1/V1SendMoneyScreen.dart';
@@ -157,13 +158,21 @@ case staffRoute:
        viewToShow: V1LisfofStaffUI(),
      );
 
-     
      case payeachStaffRoute:
-      var value = settings.arguments as List<String>; 
+      var value = settings.arguments as List<String>;
      return _getPageRouteTransition(
         pageTransitionType: PageTransitionType.rightToLeft,
        viewToShow: PayAStaffScreen(staffDetails: value,),
      );
+
+    case transferOtp:
+     var data = settings.arguments as List<String>;
+      return _getPageRouteTransition(
+        pageTransitionType: PageTransitionType.rightToLeft,
+        viewToShow: TransferOTPScreen(
+          value: data
+        ),
+      );
 
 
     default:

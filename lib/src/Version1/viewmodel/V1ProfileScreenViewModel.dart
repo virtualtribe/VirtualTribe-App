@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:virtualtribe/src/MainApp/model/FetchBankModel.dart';
+import 'package:virtualtribe/src/MainApp/model/UserModel.dart';
 import 'package:virtualtribe/src/MainApp/services/AuthService.dart';
+import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/MainApp/services/navigation_service.dart';
 import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
@@ -21,9 +23,13 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
    int get displayMessageType => _messageType;
    final API _api = locator<API>();
    List<BankData> _fectbankModel = List<BankData>();
-      List<BankData> get getbank => _fectbankModel;
-        String getAccountName;
-         final CustomFunction _customFuntion = locator<CustomFunction>();
+    List<BankData> get getbank => _fectbankModel;
+    String getAccountName;
+     final CustomFunction _customFuntion = locator<CustomFunction>();
+     final FirestoreService _firestoreService = locator<FirestoreService>();
+      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+      String bankCode;
+
 
    
  logout(){
@@ -57,6 +63,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
             nameOfNextKinController.text = _authenticationService.currentUser.nameOfNextKinController;
             nameOfNextKinPhoneNumberController.text = _authenticationService.currentUser.nameOfNextKinPhoneNumberController;
               dateOfBirth.text = _authenticationService.currentUser.dateOfBirth;
+              bankCode = _authenticationService.currentUser.myBankCode;
         
         fetchBanks(
         emailCon: emailController,
@@ -141,9 +148,72 @@ List<BankData> getBank() {
                   });
 
    }
+
    showMessage({String msg, int type}){
   _message = msg;
   _messageType = type;
   notifyListeners();
-} 
+}
+
+update({TextEditingController phoneNumberController,
+  TextEditingController accountNumberController,
+    TextEditingController bankNameController,
+  TextEditingController accountNameController,
+    TextEditingController homeAddressController,
+  TextEditingController guarantorNumberController,
+    TextEditingController guarantorNameController,
+  TextEditingController nameOfNextKinController,
+    TextEditingController nameOfNextKinPhoneNumberController,
+    TextEditingController dateOfBirth,
+    String id})async{
+
+  var user = await _firebaseAuth.currentUser();
+
+  print(phoneNumberController.text);
+  print(accountNumberController.text);
+  print(bankNameController.text);
+  print(accountNameController.text);
+  print(homeAddressController.text);
+  print(guarantorNumberController.text);
+  print(guarantorNameController.text);
+  print(nameOfNextKinController.text);
+  print(nameOfNextKinPhoneNumberController.text);
+  print(dateOfBirth);
+  print(id);
+
+  try{
+    var result =  await _firestoreService.createUser(
+        UserModel(
+      id: user.uid,
+      accountNumber: accountNumberController.text,
+      accountName: accountNameController.text,
+      bankName: bankNameController.text,
+      dateOfBirth: dateOfBirth.text,
+      phoneCode: '+234',
+      phoneNumber: phoneNumberController.text,
+      guarantorName: guarantorNameController.text,
+      guarantorNumber: guarantorNumberController.text,
+      homeAddress: homeAddressController.text,
+      walletBalance: "0.00",
+      nameOfNextKinController: nameOfNextKinController.text,
+      nameOfNextKinPhoneNumberController: nameOfNextKinPhoneNumberController.text,
+      hubstaffID: id,
+      myBankCode: bankCode,
+    )
+    );
+
+    if(result is String){
+      setBusy(false);
+      showMessage(msg: result.toString(), type: 1);
+
+    }else{
+      setBusy(false);
+      showMessage(msg: result.toString(), type: 0);
+    }
+
+  }catch(e){
+    showMessage(msg: e.toString(), type: 0);
+    setBusy(false);
+  }
+}
 }

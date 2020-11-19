@@ -6,12 +6,7 @@ import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
 import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
 import 'package:virtualtribe/src/MainApp/utils/constants.dart';
 import 'package:virtualtribe/src/Version1/viewmodel/V1SendMoneyModel.dart';
-import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
-import 'package:stacked/stacked.dart';
-import 'package:virtualtribe/src/MainApp/styles/AppColor.dart';
-import 'package:virtualtribe/src/MainApp/styles/AppFontSizes.dart';
-import 'package:virtualtribe/src/MainApp/styles/AppTextStyle.dart';
 import 'package:virtualtribe/src/MainApp/utils/customFunction.dart';
 import 'package:virtualtribe/src/locator.dart';
 
@@ -24,7 +19,7 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
   final CustomFunction _customFuntion = locator<CustomFunction>();
   final NavigationService _navigationService = locator<NavigationService>();
 
- static const int sortName = 0;
+  static const int sortName = 0;
   bool isAscending = true;
   int sortType = sortName;
   List<String> sendData = new List<String>();
@@ -33,19 +28,21 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
   Widget build(BuildContext context) {
      return ViewModelBuilder<V1SendMoneyModel>.reactive(
       viewModelBuilder: () => V1SendMoneyModel(),
-      onModelReady: (model) => model.initialise(
-      ),
+      onModelReady: (model) => model.initialise(),
       builder: (context, model, child) =>
-     Scaffold(
-        appBar: AppBar(
+      Scaffold(
+        appBar:AppBar(
            backgroundColor: AppColor.primary,
         title: Text('Send Money to Staff', 
         style: AppTextStyle.rampatStyle(AppColor.white, AppFontSizes.large)),
         ),
         backgroundColor: AppColor.white,
-        body: (model.isBusy ?  Center(child:_customFuntion.loaderPrimay())
-        : _getBodyWidget(model)),
-    ));
+        body: (model.isBusy ?
+        Center(child:_customFuntion.loaderPrimay())
+        : _getBodyWidget(model)
+        ),
+    )
+     );
   }
 
   Widget _getBodyWidget(V1SendMoneyModel model) {
@@ -89,7 +86,8 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
           ),
 
            Container(
-            child: Text(model.getAllMembers[index].email.toString() == null ? " " : model.getAllMembers[index].email.toString()),
+            child: Text(model.getAllMembers[index].email.toString() == null ? " "
+                : model.getAllMembers[index].email.toString()),
             width: 200,
             height: 52,
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -179,5 +177,4 @@ class _V1SendMoneyScreenState extends State<V1SendMoneyScreen> {
       alignment: Alignment.centerLeft,
     );
   }
-   
 }

@@ -1,11 +1,12 @@
 class UserModel{
   final String id, email, type, fullName, phoneNumber, 
   phoneCode, accountNumber, bankName, accountName, homeAddress,
-   guarantorName, guarantorNumber, nameOfNextKinController, nameOfNextKinPhoneNumberController, dateOfBirth, walletBalance, hubstaffID;
+   guarantorName, guarantorNumber, nameOfNextKinController, 
+   nameOfNextKinPhoneNumberController, dateOfBirth, walletBalance, hubstaffID, myBankCode, role;
 
   UserModel({this.id, this.email, this.type, this.fullName,    this.phoneNumber, this.phoneCode, this.accountNumber, this.bankName, this.accountName, this.homeAddress,
    this.guarantorName,  this.guarantorNumber,  this.nameOfNextKinController,  
-   this.nameOfNextKinPhoneNumberController, this.dateOfBirth, this.walletBalance, this.hubstaffID});
+   this.nameOfNextKinPhoneNumberController, this.dateOfBirth, this.walletBalance, this.hubstaffID, this.myBankCode, this.role});
 
   UserModel.fromData(Map<String, dynamic> data)
       : id = data['id'],
@@ -24,7 +25,9 @@ class UserModel{
           nameOfNextKinController = data['nameOfNextKinController'],
            nameOfNextKinPhoneNumberController = data['nameOfNextKinPhoneNumberController'],
            walletBalance = data['walletBalance'],
-           hubstaffID = data['hubstaffID'];
+           hubstaffID = data['hubstaffID'],
+           myBankCode =  data['myBankCode'],
+            role =  data['role'] ;
 
   Map<String, dynamic> toJson() {
     return {
@@ -44,7 +47,9 @@ class UserModel{
           'nameOfNextKinController' : nameOfNextKinController,
            'nameOfNextKinPhoneNumberController' : nameOfNextKinPhoneNumberController,
             'walletBalance' : walletBalance,
-            'hubstaffID' : hubstaffID
+            'hubstaffID' : hubstaffID,
+           'myBankCode' : myBankCode, 
+           'role' : role
        };
   }
 

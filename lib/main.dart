@@ -1,24 +1,20 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:nonce/nonce.dart';
 import 'package:virtualtribe/app.dart';
 import 'package:virtualtribe/src/MainApp/services/FirestoreService.dart';
 import 'package:virtualtribe/src/locator.dart';
 
-// import the io version
+// import the version
 import 'package:openid_client/openid_client_io.dart';
 // use url launcher package 
 import 'package:url_launcher/url_launcher.dart';
 
-
  void main(){
-   
-    WidgetsFlutterBinding.ensureInitialized(); //default from flutter.
-     setupLocator(); //initialize dependeny injection
-     locator.registerLazySingleton(() => FirestoreService());
+   WidgetsFlutterBinding.ensureInitialized(); //default from flutter.
+   setupLocator(); //initialize dependeny injection
+   locator.registerLazySingleton(() => FirestoreService());
    runApp(App());
  }
+
 /// -----------------------------------
 ///          External Packages
 /// -----------------------------------
